@@ -1,0 +1,83 @@
+* {
+    font-family: 'Oxygen', 'Open sans', 'Sans serif', 'Arial';
+}
+
+body,
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #262434;
+}
+
+.container {
+    border: solid red 0px;
+    overflow: hidden;
+}
+
+#heliocentric_controls {
+    position: fixed;
+    right: 50px;
+    top: 50px;
+    color: #fff;
+}
+
+#heliocentric_container {
+    border: solid blue 0px;
+    display: block;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+#heliocentric_container .orbit {
+    fill: none;
+    stroke: #696879;
+    transition: all 1s ease-in-out;
+}
+
+#heliocentric_container .planet {
+    transition: all 1s ease-in-out;
+}
+
+#hc_sun {
+    fill: #f5d550;
+    transition: all 1s ease-in-out;
+}
+
+#hc_mercury {
+    fill: #72705c;
+}
+
+#hc_venus {
+    fill: #D98B4C;
+}
+
+#hc_earth {
+    fill: #7dafb7;
+}
+
+#hc_mars {
+    fill: #F75D45;
+}
+
+#hc_jupiter {
+    fill: #9b6f41;
+}
+
+#hc_saturn {
+    fill: #A3A67B;
+}
+
+#hc_uranus {
+    fill: #569683;
+}
+
+#hc_neptune {
+    fill: #74739d;
+}
+
+#hc_pluto {
+    fill: #a7bfbc;
+}
