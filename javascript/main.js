@@ -10,7 +10,8 @@ $(function() {
     
     $(window).resize(setContainerSize);
     $('#cb_toscale').change(setScale);
-    $('#btn_zoom').click(doZoom);
+    $('#btn_zoomin').click(zoomIn);
+    $('#btn_zoomout').click(zoomOut);
     
     setContainerSize();
     getPlanetData();
@@ -120,20 +121,22 @@ var setScale = function() {
     
 }
 
-var doZoom = function() {
-    
-    sunElem
-        .css({
-            r: 25
-        })
-        .velocity({
-            r: 25
-        }, { duration: 1000, easing: 'ease-in-out', queue: false });
+var zoomIn = function() {
     
     containerElem
         .velocity({
             scale: 30,
             opacity: 0
+        }, { duration: 1000, easing: 'easeInSine', queue: false });
+    
+}
+
+var zoomOut = function() {
+    
+    containerElem
+        .velocity({
+            scale: 1,
+            opacity: 1
         }, { duration: 1000, easing: 'easeInSine', queue: false });
     
 }

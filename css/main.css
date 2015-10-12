@@ -21,6 +21,7 @@ body {
     position: fixed;
     right: 50px;
     top: 50px;
+    z-index: 10;
     color: #fff;
 }
 
