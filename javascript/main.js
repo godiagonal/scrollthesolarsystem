@@ -1,61 +1,152 @@
-var containerElem,
+var planetData,
+    hcContainerElem,
+    exContainerElem,
+    sunElem,
     viewboxWidth,
-    sunElem;
+    toScale = false,
+    isExplorationMode = false,
+    starCoverage = 0;
+
+// Constants
+var planetMin = 3,
+    planetMax = 10,
+    sunMin = 2,
+    sunMax = 25,
+    controlsOffset = 25,
+    controlsHiddenOffset = -300,
+    starCoverageStep = 2000;
 
 $(function() {
     
-    containerElem = $('#heliocentric_container');
+    hcContainerElem = $('#heliocentric_container');
+    exContainerElem = $('#exploration_container');
     sunElem = $('#hc_sun');
-    viewboxWidth = containerElem[0].getAttribute('viewBox').split(' ')[2];
+    viewboxWidth = hcContainerElem[0].getAttribute('viewBox').split(' ')[2];
     
-    $(window).resize(setContainerSize);
-    $('#cb_toscale').change(setScale);
-    $('#btn_zoomin').click(zoomIn);
-    $('#btn_zoomout').click(zoomOut);
+    $(window).resize(onResize);
+    $(window).scroll(onScroll);
+    $('#btn_toscale').click(setScale);
+    $('#btn_explore').click(explorationMode);
+    $('#btn_overview').click(overviewMode);
     
-    setContainerSize();
+    $('#slider_date').slider({
+        orientation: 'vertical',
+        min: 0,
+        max: 730,
+        value: 365,
+        slide: setTimeFrame
+    });
+    
+    onResize();
+    onScroll();
     getPlanetData();
     
 });
 
-var setContainerSize = function() {
+// Reset scrolling position to prevent heliocentric view from 
+// being out of view on page reload
+$(window).on('beforeunload', function() {
     
-    var maxWidth = $(window).height() < $(window).width() ? $(window).height() : $(window).width();
+    $(window).scrollTop(0);
     
-    containerElem.width(maxWidth);
+});
+
+var onResize = function() {
+
+    var maxWidth = $(window).height() > $(window).width() ? $(window).width() : $(window).height();
+    hcContainerElem.width(maxWidth);
+    
+    // Make page mobile friendly if height > width
+    if ($(window).height() > $(window).width() - 300) {
+        $('body').addClass('mobile');
+        $('.controls').css('height', 'auto');
+        $('.ui-slider').slider('option', 'orientation', 'horizontal');
+        
+        if (isExplorationMode)
+            overviewMode();
+    }
+    else {
+        $(window).scrollTop(0);
+        $('body').removeClass('mobile');
+        $('.controls').css('height', $(window).height() - controlsOffset * 2);
+        $('.ui-slider').slider('option', 'orientation', 'vertical');
+    }
+    
+}
+
+var onScroll = function() {
+    
+    var scrollTop = $(this).scrollTop();
+    
+    if (scrollTop >= starCoverage - starCoverageStep) {
+        addStars(starCoverage);
+        starCoverage += starCoverageStep;
+    }
+    
+}
+
+var addStars = function(offset) {
+    
+    //console.log('Added stars from ' + offset + 'px to ' + (offset + starCoverageStep) + 'px');
+    //console.log('Current offset is ' + $(window).scrollTop() + 'px');
+    
+    $('<div />')
+        .addClass('stars layer1')
+        .css('transform', 'translateY(' + offset + 'px)')
+        .appendTo('#star_container');
+    $('<div />')
+        .addClass('stars layer2')
+        .css('transform', 'translateY(' + offset + 'px)')
+        .appendTo('#star_container');
+    $('<div />')
+        .addClass('stars layer3')
+        .css('transform', 'translateY(' + offset + 'px)')
+        .appendTo('#star_container');
     
 }
 
 var getPlanetData = function() {
     
-    $.getJSON('data.php', updatePlanetElements).fail(function() {
+    $.getJSON('data.php', function(data) {
+        
+        planetData = data;
+        updatePlanetElements();
+        
+    }).fail(function() {
+        
         alert('An error occured when loading planetary data.');
+        
     });
     
 }
 
-var updatePlanetElements = function(data) {
+var updatePlanetElements = function(day, noTransition) {
+    
+    if (!planetData)
+        return;
+    
+    day = typeof day !== 'undefined' ? day : 365;
     
     // The value a planets orbit in AU should be multiplied by to get
-    // a correct pixel radius on the page. 40 comes from the orbit radius
-    // of Pluto which is about 34 AU.
-    var orbitRatio = viewboxWidth / 2 / 34;
+    // a correct pixel radius on the page. maxDistance is the orbit radius
+    // of Neptune which is about 30 AU.
+    var maxDistance = Math.ceil(planetData[planetData.length - 1].records[day].distance) + 2;
+    var orbitRatio = viewboxWidth / 2 / maxDistance;
     
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < planetData.length; i++) {
         
-        var planetElem = $('#hc_' + data[i].selector);
-        var orbitElem = $('#hc_' + data[i].selector + '_orbit');
+        var planetElem = $('#hc_' + planetData[i].selector);
+        var orbitElem = $('#hc_' + planetData[i].selector + '_orbit');
         
-        // Compensate for the sun by adding 50 px
-        var radius = orbitRatio * data[i].range;
+        var radius = orbitRatio * planetData[i].records[day].distance;
         
-        // This assumes there are 9 planets
-        var normalizedRadius = viewboxWidth / 2 / 10 * data[i].order + 25;
+        // This assumes there are 8 planets and compensates for the radius of the sun
+        var normalizedRadius = viewboxWidth / 2 / 9 * planetData[i].order + sunMax;
         
         planetElem.data({
             radius: radius,
             normalizedRadius: normalizedRadius,
-            angle: data[i].elon
+            angle: planetData[i].records[day].elon
         });
         
         orbitElem.data({
@@ -65,78 +156,145 @@ var updatePlanetElements = function(data) {
         
     }
     
-    updatePlanetModel(false);
+    updatePlanetModel(noTransition);
     
 }
 
 // Every animation is covered both by a css transition (chrome) and a velocity
 // transition (firefox, safari) to cover functionality in all major browsers. 
-var updatePlanetModel = function(toScale) {
+var updatePlanetModel = function(noTransition) {
     
-    toScale = typeof toScale !== 'undefined' ? toScale : true;
-    
-    sunElem
-        .css({
-            r: toScale ? 2 : 25
-        })
-        .velocity({
-            r: toScale ? 2 : 25
-        }, { duration: 1000, easing: 'ease-in-out', queue: false });
-    
-    containerElem.find('.orbit').each(function(index, elem) {
+    // Used by slider
+    if (noTransition) {
         
-        $(elem)
+        hcContainerElem[0].classList.add('no-transition');
+        
+        sunElem.attr({ r: toScale ? sunMin : sunMax });
+        
+        hcContainerElem.find('.orbit').each(function(index, elem) {
+            
+            $(elem).attr({ r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius') });
+            
+        });
+        
+        hcContainerElem.find('.planet').each(function(index, elem) {
+            
+            var radius = toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+            var angle = $(elem).data('angle');
+            
+            $(elem)
+                .attr({ r: toScale ? planetMin : planetMax })
+                .css({ transform: 'rotate(-' + angle + 'deg) translateX(' + radius + 'px) rotate(' + angle + 'deg)' });
+            
+        });
+
+    }
+    
+    // Used on startup and scale change
+    else {
+        
+        hcContainerElem[0].classList.remove('no-transition');
+    
+        sunElem
             .css({
-                r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius')
+                r: toScale ? sunMin : sunMax
             })
             .velocity({
-                r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius')
+                r: toScale ? sunMin : sunMax
             }, { duration: 1000, easing: 'ease-in-out', queue: false });
+
+        hcContainerElem.find('.orbit').each(function(index, elem) {
+
+            $(elem)
+                .css({
+                    r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius')
+                })
+                .velocity({
+                    r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius')
+                }, { duration: 1000, easing: 'ease-in-out', queue: false });
+
+        });
+
+        hcContainerElem.find('.planet').each(function(index, elem) {
+
+            var radius = toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+            var angle = $(elem).data('angle');
+
+            $(elem)
+                .css({
+                    transform: 'rotate(-' + angle + 'deg) translateX(' + radius + 'px) rotate(' + angle + 'deg)',
+                    r: toScale ? planetMin : planetMax
+                })
+                .velocity({
+                    r: toScale ? planetMin : planetMax
+                }, { duration: 1000, easing: 'ease-in-out', queue: false });
+
+        });
         
-    });
+    }
     
-    containerElem.find('.planet').each(function(index, elem) {
-        
-        var radius = toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
-        var angle = $(elem).data('angle');
-        
-        $(elem)
-            .css({
-                transform: 'rotate(-' + angle + 'deg) translateX(' + radius + 'px) rotate(' + angle + 'deg)',
-                r: toScale ? 3 : 10
-            })
-            .velocity({
-                r: toScale ? 3 : 10
-            }, { duration: 1000, easing: 'ease-in-out', queue: false });
-        
-    });
+}
+
+var setTimeFrame = function(event, ui) {
+    
+    updatePlanetElements(ui.value, true);
     
 }
 
 var setScale = function() {
     
-    var toScale = $(this).is(':checked');
+    var text = $(this).val();
+    $(this).val($(this).data('toggle-value')).data('toggle-value', text);
     
-    updatePlanetModel(toScale);
+    toScale = !toScale;
+    updatePlanetModel();
     
 }
 
-var zoomIn = function() {
+var explorationMode = function() {
     
-    containerElem
+    isExplorationMode = true;
+    
+    $('#heliocentric_controls').css('right', controlsHiddenOffset);
+    $('#intro').css('opacity', 0);
+    
+    hcContainerElem
         .velocity({
             scale: 30,
             opacity: 0
-        }, { duration: 1000, easing: 'easeInSine', queue: false });
+        }, { duration: 1000, easing: 'easeInSine', queue: false, complete: initExplorationMode });
     
 }
 
-var zoomOut = function() {
+var initExplorationMode = function() {
     
-    containerElem
+    hcContainerElem.hide();
+    exContainerElem.css('opacity', 1);
+    $('#exploration_controls').css('right', controlsOffset);
+    $('body').addClass('scrollable');
+    
+}
+
+var overviewMode = function() {
+    
+    isExplorationMode = false;
+    
+    $(window).scrollTop(0);
+    $('body').removeClass('scrollable');
+    $('#exploration_controls').css('right', controlsHiddenOffset);
+    exContainerElem.css('opacity', 0);
+    
+    hcContainerElem
+        .show()
         .velocity({
             scale: 1,
             opacity: 1
-        }, { duration: 1000, easing: 'easeInSine', queue: false });
+        }, { duration: 1000, easing: 'easeInSine', queue: false, complete: initOverviewMode });
+    
+}
+
+var initOverviewMode = function() {
+    
+    $('#heliocentric_controls').css('right', controlsOffset);
     
 }

@@ -24,3 +24,12 @@ Scrollvy:
 - Avstånd från solen.
 - Lista med planeter och länkar till respektive planet.
 - Knapp för att visa heliocentrisk vy.
+
+Ändra till mobilläge om width < height. I mobilläge är title och controls relativt
+placerade över respektive under den heliocentriska vyn.
+
+Text i början:
+This is a bird's eye view of what our solar system looks like today according to
+NASA's calculations. By using the slider to the right you can reverse or predict
+the future motion of the planets.
+To start exploring the planets begin scrolling down. (pil ner)

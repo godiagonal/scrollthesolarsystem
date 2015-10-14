@@ -3,60 +3,109 @@
 <head>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-	<title>Scroll the solar system</title>
+	<title>Scroll the Solar System</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oxygen:400,300,700">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/stars.css">
     <script src="javascript/jquery-2.1.4.min.js"></script>
+    <script src="javascript/jquery-ui.min.js"></script>
     <script src="javascript/velocity.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
     <script src="javascript/main.js"></script>
 </head>
 <body>
     
-    <main>
+    <div class="container">
         
-        <div class="container">
+        <div id="star_container"></div>
+        
+        <div id="title">
+            <h3 class="headline">Scroll the Solar System</h3>
+        </div>
+
+        <svg id="heliocentric_container" class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
+
+            <circle id="hc_mercury_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_venus_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_earth_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_mars_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_jupiter_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_saturn_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_uranus_orbit" cy="500" cx="500" class="orbit" />
+            <circle id="hc_neptune_orbit" cy="500" cx="500" class="orbit" />
+
+            <circle id="hc_mercury" cy="500" cx="500" class="planet" />
+            <circle id="hc_venus" cy="500" cx="500" class="planet" />
+            <circle id="hc_earth" cy="500" cx="500" class="planet" />
+            <circle id="hc_mars" cy="500" cx="500" class="planet" />
+            <circle id="hc_jupiter" cy="500" cx="500" class="planet" />
+            <circle id="hc_saturn" cy="500" cx="500" class="planet" />
+            <circle id="hc_uranus" cy="500" cx="500" class="planet" />
+            <circle id="hc_neptune" cy="500" cx="500" class="planet" />
+
+            <circle id="hc_sun" cy="500" cx="500" />
+
+        </svg>
+        
+        <div id="heliocentric_controls" class="controls">
             
-            <div id="heliocentric_controls">
-                <label for="cb_toscale">Show orbits to scale</label>
-                <input type="checkbox" id="cb_toscale">
-                <br>
-                <input type="button" id="btn_zoomin" value="Zoom in">
-                <input type="button" id="btn_zoomout" value="Zoom out">
+            <h4 class="headline">Time frame</h4>
+            
+            <div id="slider_date">
+                <div class="text prev-year">One year ago</div>
+                <div class="text next-year">One year from now</div>
+                <div class="text now">Today</div>
             </div>
             
-            <svg id="heliocentric_container" class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
-                
-                <circle id="hc_mercury_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_venus_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_earth_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_mars_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_jupiter_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_saturn_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_uranus_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_neptune_orbit" cy="500" cx="500" class="orbit" />
-                <circle id="hc_pluto_orbit" cy="500" cx="500" class="orbit" />
-                
-                <circle id="hc_mercury" cy="500" cx="500" class="planet" />
-                <circle id="hc_venus" cy="500" cx="500" class="planet" />
-                <circle id="hc_earth" cy="500" cx="500" class="planet" />
-                <circle id="hc_mars" cy="500" cx="500" class="planet" />
-                <circle id="hc_jupiter" cy="500" cx="500" class="planet" />
-                <circle id="hc_saturn" cy="500" cx="500" class="planet" />
-                <circle id="hc_uranus" cy="500" cx="500" class="planet" />
-                <circle id="hc_neptune" cy="500" cx="500" class="planet" />
-                <circle id="hc_pluto" cy="500" cx="500" class="planet" />
-                
-                <circle id="hc_sun" cy="500" cx="500" />
-                
-            </svg>
+            <input type="button" class="button block" id="btn_toscale" value="Show orbits to scale" data-toggle-value="Show normalized orbits">
+            <input type="button" class="button block hide-on-mobile" id="btn_explore" value="Start exploring">
+            
+            <div class="hide-on-mobile">
+                <a href="#" class="footer-link">About</a>
+                <span class="footer-link"> | </span>
+                <a href="#" class="footer-link">GitHub</a>
+            </div>
             
         </div>
         
-    </main>
-
-    <footer>
+        <div id="intro">
+            Scroll down to begin your voyage
+        </div>
         
-    </footer>
-    
+        <div id="exploration_container">
+            Container 2 start
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            Container 2 end
+        </div>
+        
+        <div id="exploration_controls" class="controls">
+            
+            <h4 class="headline hide-on-mobile">Warp drive to</h4>
+            
+            <ul id="planet_list" class="hide-on-mobile">
+                <li><a href="#">Mercury</a></li>
+                <li><a href="#">Venus</a></li>
+                <li><a href="#">Earth</a></li>
+                <li><a href="#">Mars</a></li>
+                <li><a href="#">Jupiter</a></li>
+                <li><a href="#">Saturn</a></li>
+                <li><a href="#">Uranus</a></li>
+                <li><a href="#">Neptune</a></li>
+                <li><a href="#">Pluto</a></li>
+            </ul>
+            
+            <input type="button" class="button block hide-on-mobile" id="btn_overview" value="Back to overview">
+            
+            <a href="#" class="footer-link">About</a>
+            <span class="footer-link"> | </span>
+            <a href="#" class="footer-link">GitHub</a>
+            
+        </div>
+        
+    </div>
+
 </body>
 </html>
