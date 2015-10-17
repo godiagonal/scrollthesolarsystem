@@ -8,12 +8,7 @@ Hämta data från http://ssd.jpl.nasa.gov/horizons.cgi med följande data:
 
 Färger: http://www.colourlovers.com/palette/1114913/neptune_to_mars
 
-Hämta år för år och spara i db, manuell uppdatering genom ett api-anrop.
-
-1. Översikt över planetpositioner i början.
-2. Börja scrolla, zoomar in på solen och fadear ut heliocentrisk vy.
-3. Scrollvy börjar när man scrollar lite längre och halva solen kommer ner från toppen.
-4. När man fortsätter scroll visas fler respektive planet samt information om planeten.
+Byt ut velocity-animation mot tweenmax. Onödigt att ha 2 libs som gör samma sak.
 
 Heliocenstrisk vy:
 - Kontroll för scale och slider för datum.
@@ -33,3 +28,7 @@ This is a bird's eye view of what our solar system looks like today according to
 NASA's calculations. By using the slider to the right you can reverse or predict
 the future motion of the planets.
 To start exploring the planets begin scrolling down. (pil ner)
+
+This is our solar system and what it looks like today.
+Use the slider to the right to make the planets travel back and forth in time.
+

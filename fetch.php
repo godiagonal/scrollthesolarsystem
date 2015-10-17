@@ -58,6 +58,9 @@ $planets = array(
     )
 );
 
+$total_row_count = 0;
+$planet_count = 0;
+
 foreach ($planets as $key => $value) {
     
     $data['planet'] = $key;
@@ -92,15 +95,29 @@ foreach ($planets as $key => $value) {
                 }
 
                 $records[] = $cols_new;
+                $total_row_count++;
 
             }
 
-        }                
+        }
+            
+        $planet_count++;
                 
         $planets[$key]['records'] = $records;
 
     }
     
+}
+
+echo 'Fetched '.$total_row_count.' records for '.$planet_count.' planets. ';
+echo ($total_row_count / $planet_count).' records per planet.<br>';
+echo 'Start: '.date('Y-m-d', strtotime($data['start_year'].'-01-01 + '.$data['start_day'].' days')).'<br>';
+echo 'End: '.date('Y-m-d', strtotime($data['stop_year'].'-01-01 + '.$data['stop_day'].' days')).'<br>';
+echo 'Resolution: '.$data['resolution'].' days<br><br>';
+if (empty($_GET['update_db'])) {
+    echo 'To update the databse add the "update_db=1" parameter.<br><br>';
+    print_r($planets);
+    die();
 }
 
 require('db.php');

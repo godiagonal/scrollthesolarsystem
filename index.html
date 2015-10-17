@@ -12,8 +12,13 @@
     <link rel="stylesheet" type="text/css" href="css/stars.css">
     <script src="javascript/jquery-2.1.4.min.js"></script>
     <script src="javascript/jquery-ui.min.js"></script>
+    <script src="javascript/jquery.mousewheel.min.js"></script>
     <script src="javascript/velocity.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <script src="javascript/TweenMax.min.js"></script>
+    <script src="javascript/ScrollMagic.js"></script>
+    <script src="javascript/plugins/animation.gsap.js"></script>
+    <script src="javascript/plugins/debug.addIndicators.js"></script>
+    <script src="javascript/bowser.min.js"></script>
     <script src="javascript/main.js"></script>
 </head>
 <body>
@@ -26,7 +31,7 @@
             <h3 class="headline">Scroll the Solar System</h3>
         </div>
 
-        <svg id="heliocentric_container" class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
+        <svg id="heliocentric_container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
 
             <circle id="hc_mercury_orbit" cy="500" cx="500" class="orbit" />
             <circle id="hc_venus_orbit" cy="500" cx="500" class="orbit" />
@@ -52,7 +57,7 @@
         
         <div id="heliocentric_controls" class="controls">
             
-            <h4 class="headline">Time frame</h4>
+            <h4 class="headline">Time machine</h4>
             
             <div id="slider_date">
                 <div class="text prev-year">One year ago</div>
@@ -76,16 +81,171 @@
         </div>
         
         <div id="exploration_container">
-            Container 2 start
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            Container 2 end
+            
+            <div id="ex_sun_container">
+                <svg class="show-on-mobile ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                    <circle cy="250" cx="250" r="250" />
+                </svg>
+                <svg class="hide-on-mobile" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 250" preserveAspectRatio='none'>
+                    <circle id="ex_sun_desktop" cy="-2000" cx="500" r="2000" />
+                </svg>
+                <div class="ex-description">
+                    <h1 class="headline">The sun</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                </div>
+            </div>
+            
+            <div id="ex_mercury_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Mercury</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_venus_container" class="row invert">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Venus</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_earth_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Earth</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_mars_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Mars</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_asteroids_container" class="row">
+                <div class="ex-description">
+                    <h1 class="headline">Asteroid belt</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                </div>
+            </div>
+            
+            <div id="ex_jupiter_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Jupiter</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_saturn_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Saturn</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_uranus_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Uranus</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_neptune_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Neptune</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_pluto_container" class="row">
+                <div class="col">
+                    <svg class="ex-planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                        <circle cy="250" cx="250" r="250" />
+                    </svg>
+                </div>
+                <div class="col">
+                    <div class="ex-description">
+                        <h1 class="headline">Pluto</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ex_kuiper_container" class="row">
+                <div class="ex-description">
+                    <h1 class="headline">Kuiper belt and beyond</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla vitae tellus finibus laoreet. Etiam et tristique tellus. Pellentesque ultricies tellus lacus, hendrerit dignissim nunc ornare et. Suspendisse risus metus, commodo sit amet velit vel, rutrum porta leo. Nulla nec ullamcorper tortor. Nam eget tellus placerat, dignissim massa quis, commodo dui. Suspendisse nec leo in leo sodales euismod vitae vitae nunc. Nulla aliquet, risus at luctus semper, lorem lectus congue turpis, ut aliquet elit lacus eget lorem. Phasellus volutpat quam vitae vestibulum tristique. Aliquam a venenatis sem, non iaculis augue. Nam convallis felis tincidunt sollicitudin viverra. Nulla facilisis dictum nulla facilisis venenatis.</p>
+                </div>
+            </div>
+            
+            <br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br>
+            
         </div>
         
         <div id="exploration_controls" class="controls">
             
-            <h4 class="headline hide-on-mobile">Warp drive to</h4>
+            <h4 class="headline hide-on-mobile" style="visibility: hidden;">Warp drive to</h4>
             
-            <ul id="planet_list" class="hide-on-mobile">
+            <ul id="planet_list" class="hide-on-mobile" style="visibility: hidden;">
                 <li><a href="#">Mercury</a></li>
                 <li><a href="#">Venus</a></li>
                 <li><a href="#">Earth</a></li>
