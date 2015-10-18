@@ -1,20 +1,24 @@
 var planetData,
     hcContainerElem,
     exContainerElem,
-    sunElem,
     viewboxWidth,
-    toScale = false,
     isMobile = false,
     isExplorationMode = false,
+    orbitsToScale = false,
+    planetsToScale = false,
     starCoverage = 0,
     scrollController,
-    scrollDownDelta = 0;
+    scrollDownDelta = 0,
+    browserCanAnimateRadius,
+    browserCanUseParallax;
 
 // Constants
-var planetMin = 3,
-    planetMax = 10,
-    sunMin = 2,
-    sunMax = 25,
+var planetMinRadius = 3,
+    planetMaxRadius = 10,
+    sunMinRadius = 2,
+    sunMaxRadius = 25,
+    maxDistance = 32, // The approximate orbit radius of Neptune in AU
+    triggerMobileOffset = 300,
     controlsOffset = 25,
     controlsHiddenOffset = -300,
     starCoverageStep = 2000;
@@ -23,74 +27,43 @@ $(function() {
     
     hcContainerElem = $('#heliocentric_container');
     exContainerElem = $('#exploration_container');
-    sunElem = $('#hc_sun');
     viewboxWidth = hcContainerElem[0].getAttribute('viewBox').split(' ')[2];
     
     scrollController = new ScrollMagic.Controller();
     
+    browserCanAnimateRadius = bowser.chrome && !bowser.mobile;
+    browserCanUseParallax = !bowser.safari && !bowser.mobile;
+    
+    // Bind UI events
     $(window).resize(onResize);
     $(window).scroll(onScroll);
     $(window).mousewheel(onMouseWheel);
-    $('#btn_toscale').click(setScale);
-    $('#btn_explore').click(explorationMode);
-    $('#btn_overview').click(overviewMode);
+    $('#btn_orbit_scale').click(setOrbitScale);
+    $('#btn_planet_scale').click(setPlanetScale);
+    $('#btn_explore').click(initExplorationMode);
+    $('#btn_overview').click(initOverviewMode);
     
-    // 2 year time span divided into weeks, today in the middle
+    // Init slider with 2 year time span divided into weeks (today in the middle)
     $('#slider_date').slider({
         orientation: 'vertical',
         min: 0,
         max: 104,
         value: 52,
-        slide: setTimeFrame
+        slide: onSlide
     });
     
     onResize();
     onScroll();
     getPlanetData();
     
-    // Don't add parallax effect in safari, the results are devestating
-    if (bowser.safari)
-        return;
-    
-    // Add parallax scroll effect to planets
-    $('.row').each(function(index, elem) {
-        
-        var planetElem = $(elem).find('.ex-planet');
-        var descElem = $(elem).find('.ex-description')
-        
-        var tl = new TimelineMax();
-            tl.fromTo(planetElem, 1, { top: 0, left: -50 }, { top: 300, left: 50 })
-              .to(descElem, 1, { top: 300 }, '0')
-              .fromTo(descElem, 0.5, { opacity: 0 }, { opacity: 1 }, '0')
-              .to(descElem, 0.2, { opacity: 0 }, '0.8')
-              .from(descElem.find('.headline'), 0.8, { marginBottom: 100 }, '0');
-
-        new ScrollMagic.Scene({ triggerElement: elem, duration: 1300, offset: -250 })
-                .setTween(tl)
-                //.addIndicators()
-                .addTo(scrollController);
-            
-    });
-    
-    // Add parallax effect to sun description
-    var tl = new TimelineMax();
-        tl.fromTo('#ex_sun_container .ex-description', 1, { opacity: 1 }, { opacity: 0 });
-
-    new ScrollMagic.Scene({ triggerElement: '#ex_sun_container .ex-description', duration: 1300, offset: 0 })
-            .setTween(tl)
-            //.addIndicators()
-            .addTo(scrollController);
-    
 });
 
-var round = function(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-}
-
-// Reset scrolling position to prevent heliocentric view from 
+// Reset scrolling position to prevent overview mode from 
 // being out of view on page reload
 $(window).on('beforeunload', function() {
+    
     $(window).scrollTop(0);
+    
 });
 
 var onResize = function() {
@@ -99,85 +72,56 @@ var onResize = function() {
     hcContainerElem.width(maxWidth);
     
     // Make page mobile friendly if height > width
-    if ($(window).height() > $(window).width() - 300) {
+    if ($(window).height() > $(window).width() - triggerMobileOffset) {
         
-        isMobile = true;
-        
-        $('body').addClass('mobile');
-        $('.controls').css('height', 'auto');
-        $('.ui-slider').slider('option', 'orientation', 'horizontal');
-        
-        if (isExplorationMode)
-            overviewMode();
+        if (!isMobile) {
+            
+            isMobile = true;
+
+            $('body').addClass('mobile');
+            $('.controls').css('height', 'auto');
+            $('.ui-slider').slider('option', 'orientation', 'horizontal');
+
+            if (isExplorationMode)
+                initOverviewMode();
+            
+        }
         
     }
     else {
         
-        isMobile = false;
+        if (isMobile) {
         
-        $(window).scrollTop(0);
-        $('body').removeClass('mobile');
-        $('.controls').css('height', $(window).height() - controlsOffset * 2);
-        $('.ui-slider').slider('option', 'orientation', 'vertical');
+            isMobile = false;
+
+            $(window).scrollTop(0);
+            $('body').removeClass('mobile');
+            $('.controls').css('height', $(window).height() - controlsOffset * 2);
+            $('.ui-slider').slider('option', 'orientation', 'vertical');
+
+        }
         
     }
     
 }
 
-// Generate new stars for background when scrolling down
 var onScroll = function() {
     
     var scrollTop = $(this).scrollTop();
     
+    // Generate new stars for background when scrolling down
     if (scrollTop >= starCoverage - starCoverageStep) {
+        
         addStars(starCoverage);
         starCoverage += starCoverageStep;
+        
     }
     
 }
 
-var addStars = function(offset) {
-    
-    //console.log('Added stars from ' + offset + 'px to ' + (offset + starCoverageStep) + 'px');
-    //console.log('Current offset is ' + $(window).scrollTop() + 'px');
-    
-    $('<div />')
-        .attr('id', 'stars_' + offset)
-        .addClass('stars layer1 parallax')
-        .css('transform', 'translateY(' + offset + 'px)')
-        .data('parallax-top', 200)
-        .appendTo('#star_container');
-    $('<div />')
-        .addClass('stars layer2')
-        .css('transform', 'translateY(' + offset + 'px)')
-        .data('parallax-top', 200)
-        .appendTo('#star_container');
-    $('<div />')
-        .addClass('stars layer3 parallax')
-        .css('transform', 'translateY(' + offset + 'px)')
-        .data('parallax-top', 300)
-        .appendTo('#star_container');
-    
-    // Don't add parallax effect in safari, the results are devestating
-    if (bowser.safari)
-        return;
-    
-    $('#star_container .parallax').each(function(index, elem) {
-        
-        $(elem).removeClass('parallax');
-        
-        new ScrollMagic.Scene({ triggerElement: '#star_container', duration: starCoverageStep, offset: offset })
-            .setTween(elem, { top: $(elem).data('parallax-top') })
-            //.addIndicators()
-            .addTo(scrollController);
-        
-    });
-    
-}
-
-// Init exploration mode when scrolling down in overview mode
 var onMouseWheel = function(event) {
 
+    // Init exploration mode when scrolling down in overview mode
     if (!isExplorationMode && !isMobile) {
 
         var down = event.deltaY < 0;
@@ -187,19 +131,51 @@ var onMouseWheel = function(event) {
 
         if (scrollDownDelta > 50) {
             scrollDownDelta = 0;
-            explorationMode();
+            initExplorationMode();
         }
 
     }
 
 }
 
+var onSlide = function(event, ui) {
+    
+    updateOverviewElements(ui.value, true);
+    
+}
+
+var setOrbitScale = function() {
+    
+    var text = $(this).val();
+    $(this).val($(this).data('toggle-value')).data('toggle-value', text);
+    
+    orbitsToScale = !orbitsToScale;
+    updateOverviewModel();
+    
+}
+
+var setPlanetScale = function() {
+    
+    var text = $(this).val();
+    $(this).val($(this).data('toggle-value')).data('toggle-value', text);
+    
+    planetsToScale = !planetsToScale;
+    updateExplorationModel();
+    
+}
+
+
+
+
+
+
 var getPlanetData = function() {
     
     $.getJSON('data.php', function(data) {
         
         planetData = data;
-        updatePlanetElements();
+        updateOverviewElements();
+        updateExplorationElements();
         
     }).fail(function() {
         
@@ -209,114 +185,172 @@ var getPlanetData = function() {
     
 }
 
-var updatePlanetElements = function(week, noTransition) {
+
+
+// Add new star elements to the DOM
+var addStars = function(offset) {
+    
+    //console.log('Added stars from ' + offset + 'px to ' + (offset + starCoverageStep) + 'px');
+    //console.log('Current offset is ' + $(window).scrollTop() + 'px');
+    
+    $('<div />')
+        .attr('id', 'stars_' + offset)
+        .addClass('stars layer1 add-parallax')
+        .css('transform', 'translateY(' + offset + 'px)')
+        .data('parallax-top', 200)
+        .appendTo('#star_container');
+    $('<div />')
+        .addClass('stars layer2')
+        .css('transform', 'translateY(' + offset + 'px)')
+        .data('parallax-top', 200)
+        .appendTo('#star_container');
+    $('<div />')
+        .addClass('stars layer3 add-parallax')
+        .css('transform', 'translateY(' + offset + 'px)')
+        .data('parallax-top', 300)
+        .appendTo('#star_container');
+    
+    if (browserCanUseParallax)
+        addStarsParallax(offset);
+    
+}
+
+// Add parallax effect to star elements
+var addStarsParallax = function(offset) {
+    
+    $('#star_container .add-parallax').each(function(index, elem) {
+        
+        $(elem).removeClass('add-parallax');
+        
+        new ScrollMagic.Scene({
+                triggerElement: '#star_container',
+                duration: starCoverageStep,
+                offset: offset
+            })
+            .setTween(elem, { top: $(elem).data('parallax-top') })
+            //.addIndicators()
+            .addTo(scrollController);
+        
+    });
+    
+}
+
+// Add data properties to planet elements in overview mode
+var updateOverviewElements = function(week, noTransition) {
     
     if (!planetData)
         return;
     
     week = typeof week !== 'undefined' ? week : 52;
     
-    // The value a planets orbit in AU should be multiplied by to get
-    // a correct pixel radius on the page. maxDistance is the orbit radius
-    // of Neptune which is about 30 AU.
-    var maxDistance = Math.ceil(planetData[planetData.length - 1].records[week].distance) + 2;
     var orbitRatio = viewboxWidth / 2 / maxDistance;
     
     for (var i = 0; i < planetData.length; i++) {
         
-        var planetElem = $('#hc_' + planetData[i].selector);
-        var orbitElem = $('#hc_' + planetData[i].selector + '_orbit');
-        
-        var radius = orbitRatio * planetData[i].records[week].distance;
-        
-        // This assumes there are 8 planets and compensates for the radius of the sun
-        var normalizedRadius = viewboxWidth / 2 / 9 * planetData[i].order + sunMax;
-        
-        planetElem.data({
-            radius: radius,
-            normalizedRadius: normalizedRadius,
-            angle: planetData[i].records[week].elon
-        });
-        
-        orbitElem.data({
-            radius: radius,
-            normalizedRadius: normalizedRadius
-        });
+        // Only add attributes to planets that are shown in overview mode
+        if (planetData[i].is_planet == 1) {
+
+            var planetElem = $('#hc_' + planetData[i].selector);
+            var orbitElem = $('#hc_' + planetData[i].selector + '_orbit');
+
+            var radius = orbitRatio * planetData[i].records[week].distance;
+
+            // This assumes there are 8 planets and compensates for the radius of the sun
+            var normalizedRadius = viewboxWidth / 2 / 9 * planetData[i].order + sunMaxRadius;
+
+            planetElem.data({
+                radius: radius,
+                normalizedRadius: normalizedRadius,
+                angle: planetData[i].records[week].elon
+            });
+
+            orbitElem.data({
+                radius: radius,
+                normalizedRadius: normalizedRadius
+            });
+            
+        }
         
     }
     
-    updatePlanetModel(noTransition);
+    updateOverviewModel(noTransition);
     
 }
 
-// Every animation is covered both by a css transition (chrome) and a velocity
-// transition (firefox, safari) to cover functionality in all major browsers. 
-var updatePlanetModel = function(noTransition) {
+// Animate the overview model to it's scale/non-scale version
+// Every animation is covered both by a css transition (chrome) and a GSAP
+// tween (firefox, safari) to cover functionality in all major browsers
+var updateOverviewModel = function(noTransition) {
     
-    // Used by slider
+    // Don't do any transitioning effects if the update was triggered by the slider
     if (noTransition) {
         
+        // jQuery's .addClass doesn't work here, don't know why...
         hcContainerElem[0].classList.add('no-transition');
         
-        sunElem.attr({ r: toScale ? sunMin : sunMax });
+        // Update sun
+        $('#hc_sun').attr({ r: orbitsToScale ? sunMinRadius : sunMaxRadius });
         
+        // Update orbits
         hcContainerElem.find('.orbit').each(function(index, elem) {
             
-            $(elem).attr({ r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius') });
+            var newRadius = orbitsToScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+            $(elem).attr({ r: newRadius });
             
         });
         
+        // Update planets
         hcContainerElem.find('.planet').each(function(index, elem) {
             
-            var radius = toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
-            var angle = $(elem).data('angle');
+            var newOrbitRadius = orbitsToScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+            var newRadius = orbitsToScale ? planetMinRadius : planetMaxRadius;
+            var newAngle = $(elem).data('angle');
             
             $(elem)
-                .attr({ r: toScale ? planetMin : planetMax })
-                .css({ transform: 'rotate(-' + angle + 'deg) translateX(' + radius + 'px) rotate(' + angle + 'deg)' });
+                .attr({ r: newRadius })
+                .css({ transform: 'rotate(-' + newAngle + 'deg) translateX(' + newOrbitRadius + 'px) rotate(' + newAngle + 'deg)' });
             
         });
 
     }
     
-    // Used on startup and scale change
+    // Do transitioning effects
     else {
         
         hcContainerElem[0].classList.remove('no-transition');
     
-        sunElem
-            .css({
-                r: toScale ? sunMin : sunMax
-            })
-            .velocity({
-                r: toScale ? sunMin : sunMax
-            }, { duration: 1000, easing: 'ease-in-out', queue: false });
+        // Update sun
+        if (browserCanAnimateRadius)
+            $('#hc_sun').css({ r: orbitsToScale ? sunMinRadius : sunMaxRadius });
+        else
+            TweenMax.to($('#hc_sun'), 1, { attr: { r: orbitsToScale ? sunMinRadius : sunMaxRadius }, ease: Quad.easeInOut });
 
+        // Update orbits
         hcContainerElem.find('.orbit').each(function(index, elem) {
 
-            $(elem)
-                .css({
-                    r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius')
-                })
-                .velocity({
-                    r: toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius')
-                }, { duration: 1000, easing: 'ease-in-out', queue: false });
+            var newRadius = orbitsToScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+            
+            if (browserCanAnimateRadius)
+                $(elem).css({ r: newRadius });
+            else
+                TweenMax.to($(elem), 1, { attr: { r: newRadius }, ease: Quad.easeInOut });
 
         });
-
+        
+        // Update planets
         hcContainerElem.find('.planet').each(function(index, elem) {
 
-            var radius = toScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
-            var angle = $(elem).data('angle');
+            var newOrbitRadius = orbitsToScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+            var newRadius = orbitsToScale ? planetMinRadius : planetMaxRadius;
+            var newAngle = $(elem).data('angle');
 
-            $(elem)
-                .css({
-                    transform: 'rotate(-' + angle + 'deg) translateX(' + radius + 'px) rotate(' + angle + 'deg)',
-                    r: toScale ? planetMin : planetMax
-                })
-                .velocity({
-                    r: toScale ? planetMin : planetMax
-                }, { duration: 1000, easing: 'ease-in-out', queue: false });
+            // Transform can be transitioned by css in all browsers
+            $(elem).css({ transform: 'rotate(-' + newAngle + 'deg) translateX(' + newOrbitRadius + 'px) rotate(' + newAngle + 'deg)' });
+            
+            if (browserCanAnimateRadius)
+                $(elem).css({ r: newRadius });
+            else
+                TweenMax.to($(elem), 1, { attr: { r: newRadius }, ease: Quad.easeInOut });
 
         });
         
@@ -324,23 +358,125 @@ var updatePlanetModel = function(noTransition) {
     
 }
 
-var setTimeFrame = function(event, ui) {
+// Add data properties to object elements in exploration mode
+var updateExplorationElements = function() {
     
-    updatePlanetElements(ui.value, true);
+    if (!planetData)
+        return;
+    
+    for (var i = 0; i < planetData.length; i++) {
+            
+        // Add attributes to all objects for exploration mode
+        var objContainerElem = $('#ex_' + planetData[i].selector + '_container');
+        
+        $('<h1 />')
+            .text(planetData[i].name)
+            .addClass('headline')
+            .appendTo(objContainerElem.find('.info'));
+        
+        $('<p />')
+            .text(planetData[i].description)
+            .addClass('description')
+            .appendTo(objContainerElem.find('.info'));
+        
+        $('<div />')
+            .text(planetData[i].distance + ' / ' + planetData[i].orbital_period + ' / ' + planetData[i].radius + ' / ' + planetData[i].surface_temperature)
+            .addClass('summary')
+            .appendTo(objContainerElem.find('.info'));
+        
+        // Make object scaleable if it has a set relative radius. relative_radius
+        // is relative to the radius of Jupiter since it's the largest planet.
+        if (planetData[i].relative_radius > 0) {
+            
+            var objElem = objContainerElem.find('.planet');
+            var objSvgElem = objContainerElem.find('.planet-container');
+            var objViewboxWidth = objSvgElem[0].getAttribute('viewBox').split(' ')[2];
+            var objNormalizedRadius = objViewboxWidth / 2;
+            var objRadius = objNormalizedRadius * planetData[i].relative_radius;
+            
+            objElem
+                .attr({
+                    r: objNormalizedRadius
+                })
+                .data({
+                    radius: objRadius,
+                    normalizedRadius: objNormalizedRadius
+                });
+            
+            objElem[0].classList.add('scalable');
+            
+        }
+        
+    }
+    
+    if (browserCanUseParallax)
+        addExplorationParallax();
     
 }
 
-var setScale = function() {
+var addExplorationParallax = function() {
     
-    var text = $(this).val();
-    $(this).val($(this).data('toggle-value')).data('toggle-value', text);
+    // Add parallax effect to the planets and planet descriptions
+    $('.row').each(function(index, elem) {
+        
+        var planetElem = $(elem).find('.planet-container');
+        var infoElem = $(elem).find('.info')
+        
+        var tl = new TimelineMax();
+            tl.fromTo(planetElem, 1, { top: 0, left: -50 }, { top: 300, left: 0 })
+              .fromTo(infoElem, 1, { top: 0 }, { top: 300 }, '0')
+              .fromTo(infoElem.find('.headline'), 0.5, { marginBottom: 100 }, { marginBottom: 20 }, '0')
+              .fromTo(infoElem.find('.headline'), 0.3, { opacity: 0 }, { opacity: 1 }, '0')
+              .fromTo(infoElem.find('.description'), 0.5, { opacity: 0 }, { opacity: 1 }, '0')
+              .to(infoElem, 0.2, { opacity: 0 }, '0.8');
+
+        new ScrollMagic.Scene({
+                triggerElement: elem,
+                duration: 1300,
+                offset: -250
+            })
+            .setTween(tl)
+            //.addIndicators()
+            .addTo(scrollController);
+            
+    });
     
-    toScale = !toScale;
-    updatePlanetModel();
+    // Add parallax effect to sun description
+    var tl = new TimelineMax();
+        tl.fromTo($('#ex_sun_container .info'), 1, { opacity: 1, top: 0 }, { opacity: 0, top: 100 });
+
+    new ScrollMagic.Scene({
+            triggerElement: '#ex_sun_container',
+            duration: 1000,
+            offset: 400
+        })
+        .setTween(tl)
+        //.addIndicators()
+        .addTo(scrollController);
     
 }
 
-var explorationMode = function() {
+// Animate the exploration model to it's scale/non-scale version
+var updateExplorationModel = function() {
+    
+    exContainerElem.find('.scalable').each(function(index, elem) {
+        
+        var newRadius = planetsToScale ? $(elem).data('radius') : $(elem).data('normalizedRadius');
+        
+        if (browserCanAnimateRadius)
+            $(elem).css({ r: newRadius });
+        else
+            TweenMax.to($(elem), 1, { attr: { r: newRadius }, ease: Quad.easeInOut });
+        
+    });
+    
+}
+
+
+
+
+// Init exploration mode
+var initExplorationMode = function() {
     
     isExplorationMode = true;
     
@@ -348,49 +484,58 @@ var explorationMode = function() {
     $('#intro').css('opacity', 0);
     $('#title').css('opacity', 0);
     
-    hcContainerElem
-        .velocity({
-            scale: 30,
-            opacity: 0
-        }, { duration: 1000, easing: 'easeInSine', queue: false, complete: initExplorationMode });
-    
-}
+    TweenMax.to(hcContainerElem, 1, {
+        scale: 40,
+        opacity: 0,
+        ease: Quad.easeIn,
+        onComplete: function() {
+            
+            $('#exploration_controls').css('right', controlsOffset);
+            exContainerElem.css('opacity', 1);
+            hcContainerElem.hide();
 
-var initExplorationMode = function() {
-    
-    hcContainerElem.hide();
-    exContainerElem.css('opacity', 1);
-    $('#exploration_controls').css('right', controlsOffset);
-    $('body').addClass('scrollable');
-    
-    // Animate sun from top
-    $('#ex_sun_desktop').velocity({
-        cy: -1850
-    }, { duration: 1000, easing: 'ease-out', queue: false });
-    
-}
-
-var overviewMode = function() {
-    
-    isExplorationMode = false;
-    
-    $(window).scrollTop(0);
-    $('body').removeClass('scrollable');
-    $('#exploration_controls').css('right', controlsHiddenOffset);
-    $('#title').css('opacity', 1);
-    exContainerElem.css('opacity', 0);
-    
-    hcContainerElem
-        .show()
-        .velocity({
-            scale: 1,
-            opacity: 1
-        }, { duration: 1000, easing: 'easeInSine', queue: false, complete: initOverviewMode });
+            // Animate sun from top
+            TweenMax.to($('#ex_sun_desktop'), 1, {
+                attr: { cy: -1850 },
+                ease: Quad.easeOut,
+                onComplete: function() {
+                    $('body').addClass('scrollable');
+                }
+            });
+            
+        }
+    });
     
 }
 
 var initOverviewMode = function() {
     
-    $('#heliocentric_controls').css('right', controlsOffset);
+    isExplorationMode = false;
+    
+    $(window).scrollTop(0);
+    $('body').removeClass('scrollable');
+    
+    $('#exploration_controls').css('right', controlsHiddenOffset);
+    $('#title').css('opacity', 1);
+    $('#ex_sun_desktop').attr('cy', -2000);
+    exContainerElem.css('opacity', 0);
+    hcContainerElem.show();
+    
+    TweenMax.to(hcContainerElem, 1, {
+        scale: 1,
+        opacity: 1,
+        ease: Quad.easeInOut,
+        onComplete: function() {
+            
+            $('#heliocentric_controls').css('right', controlsOffset);
+            
+        }
+    });
+    
+}
+
+var round = function(value, decimals) {
+    
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
     
 }

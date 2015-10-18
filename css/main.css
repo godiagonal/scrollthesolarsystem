@@ -227,17 +227,9 @@ body.mobile {
     right: -300px;
 }
 
-#exploration_container {
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
-.mobile #exploration_container {
-    opacity: 1;
-}
-
 #planet_list {
     width: 100%;
-    height: calc(100% - 100px);
+    height: calc(100% - 150px);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -247,6 +239,15 @@ body.mobile {
     font-family: 'Merriweather';
     font-style: italic;
     font-size: 14px;
+}
+
+#exploration_container {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    padding-bottom: 500px;
+}
+.mobile #exploration_container {
+    opacity: 1;
 }
 
 #exploration_container .row {
@@ -281,7 +282,7 @@ body.mobile {
     float: left;
 }
 
-#exploration_container .ex-planet {
+#exploration_container .planet-container {
     position: relative;
     display: block;
     margin: 0 auto 40px auto;
@@ -289,17 +290,31 @@ body.mobile {
     max-width: 400px;
 }
 
-#exploration_container .ex-description {
+#exploration_container .planet {
+    transition: all 1s ease-in-out;
+}
+
+#exploration_container .info {
     position: relative;
     margin: 0 auto;
     padding: 20px;
     max-width: 600px;
 }
 
-#exploration_container .ex-description .headline {
+#exploration_container .info .headline {
     font-family: 'Merriweather';
     font-style: italic;
     text-transform: none;
+}
+
+#exploration_container .info .description {
+    
+}
+
+#exploration_container .info .summary {
+    font-family: 'Merriweather';
+    font-style: italic;
+    font-size: 18px;
 }
 
 #ex_sun_container .show-on-mobile {
