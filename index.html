@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 	<title>Scroll the Solar System</title>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oxygen:400,300,700">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oxygen:600,400,300">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
@@ -56,8 +56,6 @@
         
         <div id="heliocentric_controls" class="controls">
             
-            <h4 class="headline">Time machine</h4>
-            
             <div id="slider_date">
                 <div class="text prev-year">One year ago</div>
                 <div class="text next-year">One year from now</div>
@@ -75,8 +73,12 @@
             
         </div>
         
-        <div id="intro">
+        <div id="hint_intro" class="hint">
             Scroll down to begin your voyage
+        </div>
+        
+        <div id="hint_scale" class="hint">
+            Click on a planet to show it's size to scale in relation to the sun
         </div>
         
         <div id="exploration_container">
@@ -183,10 +185,6 @@
                 </div>
             </div>
             
-            <div id="ex_kuiper_container" class="row">
-                <div class="info"></div>
-            </div>
-            
             <div id="ex_pluto_container" class="row">
                 <div class="col">
                     <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
@@ -198,13 +196,15 @@
                 </div>
             </div>
             
+            <div id="ex_kuiper_container" class="row">
+                <div class="info"></div>
+            </div>
+            
         </div>
         
         <div id="exploration_controls" class="controls">
             
-            <h4 class="headline hide-on-mobile" style="visibility: hidden;">Warp drive to</h4>
-            
-            <ul id="planet_list" class="hide-on-mobile" style="visibility: hidden;">
+            <!--<ul id="planet_list" class="hide-on-mobile">
                 <li><a href="#">Mercury</a></li>
                 <li><a href="#">Venus</a></li>
                 <li><a href="#">Earth</a></li>
@@ -214,9 +214,13 @@
                 <li><a href="#">Uranus</a></li>
                 <li><a href="#">Neptune</a></li>
                 <li><a href="#">Pluto</a></li>
-            </ul>
+            </ul>-->
             
-            <input type="button" class="button block hide-on-mobile" id="btn_planet_scale" value="Show planets to scale" data-toggle-value="Show normalized planets">
+            <div id="distance_meter" class="hide-on-mobile">
+                <div class="headline">Distance travelled</div>
+                <div class="value"><span id="distance_au">0</span> au</div>
+            </div>
+            
             <input type="button" class="button block hide-on-mobile" id="btn_overview" value="Back to overview">
             
             <a href="#" class="footer-link">About</a>

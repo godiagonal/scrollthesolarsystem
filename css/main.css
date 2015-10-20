@@ -2,19 +2,6 @@
     font-family: 'Oxygen', 'Sans serif', 'Arial';
 }
 
-a {
-    font-family: inherit;
-    color: #fff;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-
-p {
-    line-height: 20px;
-}
-
 body {
     background-color: #292836;
     font-size: 14px;
@@ -31,12 +18,32 @@ body.mobile {
 .mobile .hide-on-mobile {
     display: none !important;
 }
-
 .show-on-mobile {
     display: none !important;
 }
 .mobile .show-on-mobile {
     display: block !important;
+}
+
+a {
+    font-family: inherit;
+    color: #fff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    line-height: 20px;
+}
+
+.text-small {
+    font-size: 12px;
+}
+
+.text-bold {
+    font-weight: 600;
 }
 
 .container {
@@ -59,10 +66,11 @@ body.mobile {
     text-align: center;
 }
 
-#intro {
+.hint {
     position: fixed;
     left: 25px;
     bottom: 25px;
+    width: 210px;
     z-index: 10;
     font-family: 'Merriweather' !important;
     font-style: italic;
@@ -70,11 +78,13 @@ body.mobile {
     font-weight: 300;
     line-height: 24px;
     transition: opacity 0.5s ease-in-out;
+    opacity: 0;
 }
-.mobile #intro {
+.mobile .hint {
     position: relative;
     left: 0;
     bottom: 0;
+    width: auto;
     margin: 40px 0;
     padding: 20px;
     text-align: center;
@@ -83,12 +93,10 @@ body.mobile {
 .controls {
     position: fixed;
     right: 25px;
-    top: 25px;
+    bottom: 25px;
     width: 200px;
-    height: 700px;
     z-index: 10;
     text-align: center;
-    background: rgba(0, 0, 0, 0);
     transition: right 0.5s ease-in-out;
 }
 .mobile .controls {
@@ -137,13 +145,13 @@ body.mobile {
 
 .ui-slider {
     height: 4px;
-    margin: 30px 0 50px;
+    margin: 25px 0 50px;
     border-radius: 0;
     border: 1px solid #898898;
     background-color: rgba(255, 255, 255, 0.08);
 }
 .ui-slider-vertical {
-    height: calc(100% - 210px);
+    height: calc(100% - 188px);
     width: 4px;
     margin-left: 160px;
 }
@@ -199,6 +207,17 @@ body.mobile {
     top: calc(50% - 10px);
 }
 
+.ui-tooltip {
+	padding: 10px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #000;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+}
+
 /* Overview mode */
 
 #heliocentric_container {
@@ -225,6 +244,24 @@ body.mobile {
 
 #exploration_controls {
     right: -300px;
+}
+
+#distance_meter {
+    margin-bottom: 40px;
+}
+
+#distance_meter .headline {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+#distance_meter .value {
+    font-family: 'Merriweather';
+}
+
+#distance_meter .value span {
+    font-family: inherit;
+    font-size: 18px;
 }
 
 #planet_list {
@@ -290,6 +327,10 @@ body.mobile {
     max-width: 400px;
 }
 
+#exploration_container .planet-container.scalable {
+    cursor: pointer;
+}
+
 #exploration_container .planet {
     transition: all 1s ease-in-out;
 }
@@ -308,13 +349,29 @@ body.mobile {
 }
 
 #exploration_container .info .description {
-    
+    margin-bottom: 20px;
 }
 
 #exploration_container .info .summary {
     font-family: 'Merriweather';
-    font-style: italic;
     font-size: 18px;
+}
+.mobile #exploration_container .info .summary {
+    font-size: 14px;
+}
+
+#exploration_container .info .summary div {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding-left: 50px;
+    width: calc(50% - 50px);
+    height: 40px;
+    line-height: 40px;
+    background-image: url(../images/dummy2.png);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 40px;
+    font-family: inherit;
 }
 
 #ex_sun_container .show-on-mobile {
