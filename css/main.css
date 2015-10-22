@@ -367,11 +367,22 @@ p {
     width: calc(50% - 50px);
     height: 40px;
     line-height: 40px;
-    background-image: url(../images/dummy2.png);
     background-repeat: no-repeat;
     background-position: left;
     background-size: 40px;
     font-family: inherit;
+}
+#exploration_container .info .summary .radius {
+    background-image: url(../images/properties_radius.png);
+}
+#exploration_container .info .summary .distance {
+    background-image: url(../images/properties_distance.png);
+}
+#exploration_container .info .summary .orbit {
+    background-image: url(../images/properties_orbit.png);
+}
+#exploration_container .info .summary .temperature {
+    background-image: url(../images/properties_temperature.png);
 }
 
 #ex_sun_container .show-on-mobile {

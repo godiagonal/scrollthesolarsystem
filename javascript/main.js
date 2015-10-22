@@ -318,7 +318,7 @@ var updateExplorationElements = function() {
             
             $('<div />')
                 .text(formatDays(planetData[i].orbital_period))
-                .addClass('orbital-period')
+                .addClass('orbit')
                 .appendTo(objContainerElem.find('.summary'))
                 .attr('title', '')
                 .tooltip({
@@ -347,7 +347,7 @@ var updateExplorationElements = function() {
             
             $('<div />')
                 .text(tempRangeC)
-                .addClass('radius')
+                .addClass('temperature')
                 .appendTo(objContainerElem.find('.summary'))
                 .attr('title', '')
                 .tooltip({
