@@ -1,445 +1,486 @@
 * {
-    font-family: 'Oxygen', 'Sans serif', 'Arial';
+	font-family: 'Oxygen', 'Sans serif', 'Arial';
 }
 
 body {
-    background-color: #292836;
-    font-size: 14px;
-    font-weight: 300;
-    color: #fff;
-    overflow: hidden;
+	background-color: #292836;
+	font-size: 14px;
+	font-weight: 300;
+	color: #fff;
+	overflow: hidden;
 }
 
 body.scrollable,
 body.mobile {
-    overflow: auto;
+	overflow: auto;
 }
 
 .mobile .hide-on-mobile {
-    display: none !important;
+	display: none !important;
 }
+
 .show-on-mobile {
-    display: none !important;
+	display: none !important;
 }
+
 .mobile .show-on-mobile {
-    display: block !important;
+	display: block !important;
 }
 
 a {
-    font-family: inherit;
-    color: #fff;
-    text-decoration: none;
+	font-family: inherit;
+	color: #fff;
+	text-decoration: none;
 }
+
 a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 p {
-    line-height: 20px;
+	line-height: 20px;
 }
 
 .text-small {
-    font-size: 12px;
+	font-size: 12px;
 }
 
 .text-bold {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .container {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 #title {
-    position: fixed;
-    left: 25px;
-    top: 25px;
-    z-index: 10;
-    transition: opacity 0.5s ease-in-out;
+	position: fixed;
+	left: 25px;
+	top: 25px;
+	z-index: 10;
+	transition: opacity 0.5s ease-in-out;
 }
+
 .mobile #title {
-    position: relative;
-    left: 0;
-    top: 0;
-    margin: 40px 0 20px 0;
-    padding: 20px;
-    text-align: center;
+	position: relative;
+	left: 0;
+	top: 0;
+	margin: 40px 0 20px 0;
+	padding: 20px;
+	text-align: center;
 }
 
 .hint {
-    position: fixed;
-    left: 25px;
-    bottom: 25px;
-    width: 210px;
-    z-index: 10;
-    font-family: 'Merriweather' !important;
-    font-style: italic;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 24px;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
+	position: fixed;
+	left: 25px;
+	bottom: 25px;
+	width: 210px;
+	z-index: 10;
+	font-family: 'Merriweather' !important;
+	font-style: italic;
+	font-size: 14px;
+	font-weight: 300;
+	line-height: 24px;
+	transition: opacity 0.5s ease-in-out;
+	opacity: 0;
 }
+
 .mobile .hint {
-    position: relative;
-    left: 0;
-    bottom: 0;
-    width: auto;
-    margin: 40px 0;
-    padding: 20px;
-    text-align: center;
+	position: relative;
+	left: 0;
+	bottom: 0;
+	width: auto;
+	margin: 40px 0;
+	padding: 20px;
+	text-align: center;
 }
 
 .controls {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    width: 200px;
-    z-index: 10;
-    text-align: center;
-    transition: right 0.5s ease-in-out;
+	position: fixed;
+	right: 25px;
+	bottom: 25px;
+	width: 200px;
+	z-index: 10;
+	text-align: center;
+	transition: right 0.5s ease-in-out;
 }
+
 .mobile .controls {
-    position: relative;
-    right: 0 !important;
-    top: 0;
-    margin: 40px 0;
-    padding: 20px;
-    width: auto;
-    transition: none;
+	position: relative;
+	right: 0 !important;
+	top: 0;
+	margin: 40px 0;
+	padding: 20px;
+	width: auto;
+	transition: none;
 }
 
 .headline {
-    margin: 0 0 20px 0;
-    text-transform: uppercase;
-    font-weight: 300;
-    letter-spacing: 2px;
+	margin: 0 0 20px 0;
+	text-transform: uppercase;
+	font-weight: 300;
+	letter-spacing: 2px;
 }
 
 .footer-link {
-    font-size: 12px;
-    font-weight: 400;
-    color: #898898;
+	font-size: 12px;
+	font-weight: 400;
+	color: #898898;
 }
 
 .button {
-    margin-bottom: 10px;
-    padding: 10px 10px;
-    border: 1px solid #898898;
-    background-color: rgba(255, 255, 255, 0.08);
-    font-size: 12px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    outline: none;
-    transition: background 0.5s;
+	margin-bottom: 10px;
+	padding: 10px 10px;
+	border: 1px solid #898898;
+	background-color: rgba(255, 255, 255, 0.08);
+	font-size: 12px;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	outline: none;
+	transition: background 0.5s;
 }
+
 .button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(255, 255, 255, 0.2);
 }
+
 .button.block {
-    display: block;
-    width: 100%;
-    padding: 10px 0;
+	display: block;
+	width: 100%;
+	padding: 10px 0;
 }
 
 .ui-slider {
-    height: 4px;
-    margin: 25px 0 50px;
-    border-radius: 0;
-    border: 1px solid #898898;
-    background-color: rgba(255, 255, 255, 0.08);
+	height: 4px;
+	margin: 25px 0 50px;
+	border-radius: 0;
+	border: 1px solid #898898;
+	background-color: rgba(255, 255, 255, 0.08);
 }
+
 .ui-slider-vertical {
-    height: calc(100% - 188px);
-    width: 4px;
-    margin-left: 160px;
+	height: calc(100% - 188px);
+	width: 4px;
+	margin-left: 160px;
 }
+
 .ui-slider .ui-slider-handle {
-    width: 20px;
-    height: 20px;
-    top: -8px;
-    border-radius: 10px;
-    border: none;
-    background: #e8e8e8;
-    outline: none;
-    cursor: pointer;
+	width: 20px;
+	height: 20px;
+	top: -8px;
+	border-radius: 10px;
+	border: none;
+	background: #e8e8e8;
+	outline: none;
+	cursor: pointer;
 }
+
 .ui-slider-vertical .ui-slider-handle {
-    top: auto;
-    left: -8px;
+	top: auto;
+	left: -8px;
 }
+
 .ui-slider .text {
-    margin-top: 15px;
-    font-family: 'Merriweather';
-    font-style: italic;
-    font-size: 12px;
-    color: #fff;
+	margin-top: 15px;
+	font-family: 'Merriweather';
+	font-style: italic;
+	font-size: 12px;
+	color: #fff;
 }
+
 .ui-slider .prev-year {
-    float: left;
+	float: left;
 }
+
 .ui-slider .next-year {
-    float: right;
+	float: right;
 }
+
 .ui-slider .now {
-    width: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+	width: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
+
 .ui-slider-vertical .text {
-    position: absolute;
-    float: none;
-    margin-top: 0;
-    margin-left: -160px;
-    width: 140px;
-    height: 20px;
-    text-align: right;
+	position: absolute;
+	float: none;
+	margin-top: 0;
+	margin-left: -160px;
+	width: 140px;
+	height: 20px;
+	text-align: right;
 }
+
 .ui-slider-vertical .prev-year {
-    bottom: -6px;
+	bottom: -6px;
 }
+
 .ui-slider-vertical .next-year {
-    top: -6px;
+	top: -6px;
 }
+
 .ui-slider-vertical .now {
-    top: calc(50% - 10px);
+	top: calc(50% - 10px);
 }
 
 .ui-tooltip {
 	padding: 10px;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-    background-color: rgba(255, 255, 255, 0.85);
-    color: #000;
-    text-align: center;
-    line-height: 20px;
-    font-size: 14px;
+	background-color: rgba(255, 255, 255, 0.85);
+	color: #000;
+	text-align: center;
+	line-height: 20px;
+	font-size: 14px;
 }
+
 
 /* Overview mode */
 
-#heliocentric_container {
-    display: block;
-    overflow: hidden;
-    margin: 0 auto;
+#overview_container {
+	display: block;
+	overflow: hidden;
+	margin: 0 auto;
 }
-#heliocentric_container .orbit {
-    fill: none;
-    stroke: #696879;
+
+#overview_container .orbit {
+	fill: none;
+	stroke: #696879;
 }
-#heliocentric_container .orbit,
-#heliocentric_container .planet,
-#heliocentric_container #hc_sun{
-    transition: all 1s ease-in-out;
+
+#overview_container .orbit,
+#overview_container .planet,
+#overview_container #ov_sun {
+	transition: all 1s ease-in-out;
 }
-#heliocentric_container.no-transition .orbit,
-#heliocentric_container.no-transition .planet,
-#heliocentric_container.no-transition #hc_sun{
-    transition: none;
+
+#overview_container.no-transition .orbit,
+#overview_container.no-transition .planet,
+#overview_container.no-transition #ov_sun {
+	transition: none;
 }
+
 
 /* Exploration mode */
 
 #exploration_controls {
-    right: -300px;
+	right: -300px;
 }
 
 #distance_meter {
-    margin-bottom: 40px;
+	margin-bottom: 40px;
 }
 
 #distance_meter .headline {
-    margin-bottom: 10px;
-    font-size: 13px;
+	margin-bottom: 10px;
+	font-size: 13px;
 }
 
 #distance_meter .value {
-    font-family: 'Merriweather';
+	font-family: 'Merriweather';
 }
 
 #distance_meter .value span {
-    font-family: inherit;
-    font-size: 18px;
-}
-
-#planet_list {
-    width: 100%;
-    height: calc(100% - 150px);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-#planet_list li {
-    margin-bottom: 10px;
-    font-family: 'Merriweather';
-    font-style: italic;
-    font-size: 14px;
+	font-family: inherit;
+	font-size: 18px;
 }
 
 #exploration_container {
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    padding-bottom: 500px;
+	opacity: 0;
+	transition: opacity 1s ease-in-out;
+	padding-bottom: 500px;
 }
+
 .mobile #exploration_container {
-    opacity: 1;
+	opacity: 1;
 }
 
 #exploration_container .row {
-    margin: 2000px auto 0 auto;
-    max-width: 1000px;
-    clear: both;
+	margin: 2000px auto 0 auto;
+	max-width: 1000px;
+	clear: both;
+}
+
+#exploration_container .row.full-width {
+	max-width: none;
 }
 
 #exploration_container .row:before,
 #exploration_container .row:after {
-    content: '';
-    display: table;
+	content: '';
+	display: table;
 }
+
 #exploration_container .row:after {
-    clear: both;
+	clear: both;
 }
 
 #exploration_container .row > .col {
-    width: 47%;
-    float: left;
+	width: 47%;
+	float: left;
+}
+
+#exploration_container .row > .col:first-child {
+	padding-top: 50px;
 }
 
 #exploration_container .row > .col:last-child {
-    float: right;
+	float: right;
 }
 
 #exploration_container .row.invert > .col:first-child {
-    float: right;
+	float: right;
 }
 
 #exploration_container .row.invert > .col:last-child {
-    float: left;
-}
-
-#exploration_container .planet-container {
-    position: relative;
-    display: block;
-    margin: 0 auto 40px auto;
-    width: calc(100% - 40px);
-    max-width: 400px;
-}
-
-#exploration_container .planet-container.scalable {
-    cursor: pointer;
+	float: left;
 }
 
 #exploration_container .planet {
-    transition: all 1s ease-in-out;
+	position: relative;
+	display: block;
+	margin: 0 auto 40px auto;
+	width: calc(100% - 40px);
+	max-width: 250px;
+	transition: margin 1s ease-in-out, max-width 1s ease-in-out, opacity 0.5s;
+}
+
+#exploration_container .planet.scalable {
+	cursor: pointer;
+}
+
+#exploration_container #ex_saturn_container .planet {
+	max-width: 400px;
+}
+
+#exploration_container .belt {
+	position: relative;
+	display: block;
+	margin: 0 -50px 40px -50px;
+	width: calc(100% + 100px);
 }
 
 #exploration_container .info {
-    position: relative;
-    margin: 0 auto;
-    padding: 20px;
-    max-width: 600px;
+	position: relative;
+	margin: 0 auto;
+	padding: 20px;
+	max-width: 600px;
 }
 
 #exploration_container .info .headline {
-    font-family: 'Merriweather';
-    font-style: italic;
-    text-transform: none;
+	font-family: 'Merriweather';
+	font-style: italic;
+	text-transform: none;
 }
 
 #exploration_container .info .description {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 #exploration_container .info .summary {
-    font-family: 'Merriweather';
-    font-size: 18px;
+	font-family: 'Merriweather';
+	font-size: 18px;
 }
+
 .mobile #exploration_container .info .summary {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 #exploration_container .info .summary div {
-    display: inline-block;
-    margin-bottom: 10px;
-    padding-left: 50px;
-    width: calc(50% - 50px);
-    height: 40px;
-    line-height: 40px;
-    background-repeat: no-repeat;
-    background-position: left;
-    background-size: 40px;
-    font-family: inherit;
+	display: inline-block;
+	margin-bottom: 10px;
+	padding-left: 50px;
+	width: calc(50% - 50px);
+	height: 40px;
+	line-height: 40px;
+	background-repeat: no-repeat;
+	background-position: left;
+	background-size: 40px;
+	font-family: inherit;
 }
+
 #exploration_container .info .summary .radius {
-    background-image: url(../images/properties_radius.png);
+	background-image: url(../images/properties_radius.png);
 }
+
 #exploration_container .info .summary .distance {
-    background-image: url(../images/properties_distance.png);
+	background-image: url(../images/properties_distance.png);
 }
+
 #exploration_container .info .summary .orbit {
-    background-image: url(../images/properties_orbit.png);
+	background-image: url(../images/properties_orbit.png);
 }
+
 #exploration_container .info .summary .temperature {
-    background-image: url(../images/properties_temperature.png);
+	background-image: url(../images/properties_temperature.png);
 }
 
 #ex_sun_container .show-on-mobile {
-    margin-top: 500px !important;
+	margin-top: 500px !important;
 }
 
 @media (max-width: 850px) {
-    #exploration_container .row {
-        margin-top: 1000px;
-    }
-    
-    #exploration_container .row > .col {
-        width: 100%;
-        float: none;
-    }
+	#exploration_container .row {
+		margin-top: 1000px;
+	}
+	#exploration_container .row > .col {
+		width: 100%;
+		float: none;
+	}
 }
+
 
 /* Colors */
 
-#hc_sun,
+#ov_sun,
 #ex_sun_container circle {
-    fill: #f5d550;
-}
-#hc_mercury,
-#ex_mercury_container circle {
-    fill: #72705c;
-}
-#hc_venus,
-#ex_venus_container circle {
-    fill: #D98B4C;
-}
-#hc_earth,
-#ex_earth_container circle {
-    fill: #7dafb7;
-}
-#hc_mars,
-#ex_mars_container circle {
-    fill: #F75D45;
-}
-#hc_jupiter,
-#ex_jupiter_container circle {
-    fill: #9b6f41;
-}
-#hc_saturn,
-#ex_saturn_container circle {
-    fill: #A3A67B;
-}
-#hc_uranus,
-#ex_uranus_container circle {
-    fill: #569683;
-}
-#hc_neptune,
-#ex_neptune_container circle {
-    fill: #74739d;
-}
-#hc_pluto,
-#ex_pluto_container circle {
-    fill: #a7bfbc;
+	fill: #f5d550;
 }
 
+#ov_mercury,
+#ex_mercury_container circle {
+	fill: #bfb3af;
+}
+
+#ov_venus,
+#ex_venus_container circle {
+	fill: #e2a15a;
+}
+
+#ov_earth,
+#ex_earth_container circle {
+	fill: #5db6db;
+}
+
+#ov_mars,
+#ex_mars_container circle {
+	fill: #ef675f;
+}
+
+#ov_jupiter,
+#ex_jupiter_container circle {
+	fill: #ffed98;
+}
+
+#ov_saturn,
+#ex_saturn_container circle {
+	fill: #f4c18a;
+}
+
+#ov_uranus,
+#ex_uranus_container circle {
+	fill: #5caae0;
+}
+
+#ov_neptune,
+#ex_neptune_container circle {
+	fill: #598bd3;
+}
+
+#ov_pluto,
+#ex_pluto_container circle {
+	fill: #d3e8ea;
+}

@@ -6,20 +6,24 @@
 	<title>Scroll the Solar System</title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oxygen:600,400,300">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic">
-    <link rel="stylesheet" type="text/css" href="css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/stars.css">
-    <script src="javascript/jquery-2.1.4.min.js"></script>
-    <script src="javascript/jquery-ui.min.js"></script>
-    <script src="javascript/jquery-ui.touch-punch.min.js"></script>
-    <script src="javascript/jquery.mousewheel.min.js"></script>
-    <script src="javascript/TweenMax.min.js"></script>
-    <script src="javascript/ScrollMagic.js"></script>
-    <script src="javascript/plugins/animation.gsap.js"></script>
-    <script src="javascript/plugins/debug.addIndicators.js"></script>
-    <script src="javascript/bowser.min.js"></script>
-    <script src="javascript/main.js"></script>
+    <script src="js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="js/vendor/jquery-ui.min.js"></script>
+    <script src="js/vendor/jquery-ui.touch-punch.min.js"></script>
+    <script src="js/vendor/jquery.mousewheel.min.js"></script>
+    <script src="js/vendor/TweenMax.min.js"></script>
+    <script src="js/vendor/ScrollMagic.js"></script>
+    <script src="js/vendor/plugins/animation.gsap.js"></script>
+    <script src="js/vendor/plugins/debug.addIndicators.js"></script>
+    <script src="js/vendor/bowser.min.js"></script>
+    <script src="js/main.js"></script>
+	<script src="js/helpers.js"></script>
+	<script src="js/api.js"></script>
+	<script src="js/guiOverview.js"></script>
+	<script src="js/guiExploration.js"></script>
 </head>
 <body>
     
@@ -31,31 +35,31 @@
             <h3 class="headline">Scroll the Solar System</h3>
         </div>
 
-        <svg id="heliocentric_container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
+        <svg id="overview_container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
 
-            <circle id="hc_mercury_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_venus_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_earth_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_mars_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_jupiter_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_saturn_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_uranus_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="hc_neptune_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_mercury_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_venus_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_earth_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_mars_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_jupiter_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_saturn_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_uranus_orbit" cy="500" cx="500" r="0" class="orbit" />
+            <circle id="ov_neptune_orbit" cy="500" cx="500" r="0" class="orbit" />
 
-            <circle id="hc_mercury" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_venus" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_earth" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_mars" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_jupiter" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_saturn" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_uranus" cy="500" cx="500" r="0" class="planet" />
-            <circle id="hc_neptune" cy="500" cx="500" r="0" class="planet" />
+            <circle id="ov_mercury" cy="500" cx="500" r="0" class="planet" title="Mercury" />
+            <circle id="ov_venus" cy="500" cx="500" r="0" class="planet" title="Venus" />
+            <circle id="ov_earth" cy="500" cx="500" r="0" class="planet" title="Earth" />
+            <circle id="ov_mars" cy="500" cx="500" r="0" class="planet" title="Mars" />
+            <circle id="ov_jupiter" cy="500" cx="500" r="0" class="planet" title="Jupiter" />
+            <circle id="ov_saturn" cy="500" cx="500" r="0" class="planet" title="Saturn" />
+            <circle id="ov_uranus" cy="500" cx="500" r="0" class="planet" title="Uranus" />
+            <circle id="ov_neptune" cy="500" cx="500" r="0" class="planet" title="Neptune" />
 
-            <circle id="hc_sun" cy="500" cx="500" r="0" />
+            <circle id="ov_sun" cy="500" cx="500" r="0" title="The sun" />
 
         </svg>
         
-        <div id="heliocentric_controls" class="controls">
+        <div id="overview_controls" class="controls">
             
             <div id="slider_date">
                 <div class="text prev-year">One year ago</div>
@@ -85,7 +89,7 @@
         <div id="exploration_container">
             
             <div id="ex_sun_container">
-                <svg class="show-on-mobile planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+                <svg class="show-on-mobile planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
                     <circle id="ex_sun_mobile" cy="250" cx="250" r="250" class="planet" />
                 </svg>
                 <svg class="hide-on-mobile" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 250" preserveAspectRatio='none'>
@@ -96,9 +100,7 @@
             
             <div id="ex_mercury_container" class="row">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/mercury.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -107,9 +109,7 @@
             
             <div id="ex_venus_container" class="row invert">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/venus.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -118,9 +118,7 @@
             
             <div id="ex_earth_container" class="row">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/earth.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -129,24 +127,21 @@
             
             <div id="ex_mars_container" class="row invert">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/mars.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
                 </div>
             </div>
             
-            <div id="ex_asteroids_container" class="row">
+            <div id="ex_asteroids_container" class="row full-width">
+                <img class="belt" src="images/asteroids.svg">
                 <div class="info"></div>
             </div>
             
             <div id="ex_jupiter_container" class="row">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/jupiter.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -155,9 +150,7 @@
             
             <div id="ex_saturn_container" class="row invert">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/saturn.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -166,9 +159,7 @@
             
             <div id="ex_uranus_container" class="row">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" data-margin-top="-100" src="images/uranus.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -177,9 +168,7 @@
             
             <div id="ex_neptune_container" class="row invert">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/neptune.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
@@ -188,34 +177,21 @@
             
             <div id="ex_pluto_container" class="row">
                 <div class="col">
-                    <svg class="planet-container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                        <circle cy="250" cx="250" r="250" class="planet" />
-                    </svg>
+                    <img class="planet" src="images/pluto.svg">
                 </div>
                 <div class="col">
                     <div class="info"></div>
                 </div>
             </div>
             
-            <div id="ex_kuiper_container" class="row">
+            <div id="ex_kuiper_container" class="row full-width">
+                <img class="belt" src="images/comets.svg">
                 <div class="info"></div>
             </div>
             
         </div>
         
         <div id="exploration_controls" class="controls">
-            
-            <!--<ul id="planet_list" class="hide-on-mobile">
-                <li><a href="#">Mercury</a></li>
-                <li><a href="#">Venus</a></li>
-                <li><a href="#">Earth</a></li>
-                <li><a href="#">Mars</a></li>
-                <li><a href="#">Jupiter</a></li>
-                <li><a href="#">Saturn</a></li>
-                <li><a href="#">Uranus</a></li>
-                <li><a href="#">Neptune</a></li>
-                <li><a href="#">Pluto</a></li>
-            </ul>-->
             
             <div id="distance_meter" class="hide-on-mobile">
                 <div class="headline">Distance travelled</div>
