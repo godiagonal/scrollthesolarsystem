@@ -10,6 +10,6 @@ explore all major bodies in detail.
 Planetary data is fetched from [NASA Horizons Web API](http://ssd.jpl.nasa.gov/horizons.cgi)
 once a month and scroll animations are done with [ScrollMagic](#) and [TweenMax](#).
 
-Graphics are partially taken from [this icon pack](#) and I have made the rest myself.
+Graphics are partially taken from [this icon pack](#) and the rest I have designed myself.
 
-Enjoy!
+See you in space!
