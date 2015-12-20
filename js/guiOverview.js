@@ -11,7 +11,7 @@ var guiOverview = {
 	scrollDownDelta: 0,
 	viewboxWidth: 0,
 	orbitsToScale: false,
-	
+
 	init: function () {
 
 		guiExploration.isActive = false;
@@ -107,7 +107,7 @@ var guiOverview = {
 		guiOverview.updateModel(noTransition);
 
 	},
-	
+
 	// Animate the overview model to it's scale/non-scale version
 	// Every animation is covered both by a css transition (chrome) and a GSAP
 	// tween (firefox, safari) to cover functionality in all major browsers
@@ -219,7 +219,7 @@ var guiOverview = {
 		}
 
 	},
-	
+
 	setOrbitScale: function () {
 
 		var text = $(this).val();

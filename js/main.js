@@ -10,6 +10,7 @@ $(function () {
 	guiOverview.viewboxWidth = guiOverview.containerElem[0].getAttribute('viewBox').split(' ')[2];
 	guiExploration.containerElem = $('#exploration_container');
 	guiExploration.scrollController = new ScrollMagic.Controller();
+	guiAbout.containerElem = $('#about_container');
 
 	browser.canAnimateRadius = bowser.chrome && !bowser.mobile;
 	browser.canUseParallax = !bowser.safari && !bowser.mobile;
@@ -21,6 +22,8 @@ $(function () {
 	$(window).resize(guiExploration.onResize);
 	$(window).scroll(guiExploration.onScroll);
 	$('#btn_explore').click(guiExploration.init);
+	$('.btn-show-about').click(guiAbout.init);
+	$('#btn_hide_about').click(guiAbout.close);
 
 	// Init slider with 2 year time span divided into weeks (today in the middle)
 	$('#slider_date').slider({

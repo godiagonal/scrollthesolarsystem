@@ -1,7 +1,7 @@
 var api = {
 
 	planetData: null,
-	
+
 	getPlanetData: function () {
 
 		$.getJSON('data.php', function (data) {

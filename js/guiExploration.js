@@ -11,7 +11,7 @@ var guiExploration = {
 	scrollController: null,
 	isActive: false,
 	hintScaleShown: false,
-	
+
 	init: function () {
 
 		guiExploration.isActive = true;
@@ -51,7 +51,7 @@ var guiExploration = {
 		});
 
 	},
-	
+
 	onResize: function () {
 
 		var maxWidth = $(window).height() > $(window).width() ? $(window).width() : $(window).height();
@@ -95,7 +95,7 @@ var guiExploration = {
 	},
 
 	onScroll: function () {
-
+		
 		var scrollTop = $(window).scrollTop();
 
 		// Generate new stars for background when scrolling down
@@ -360,7 +360,7 @@ var guiExploration = {
 			guiExploration.addStarsParallax(offset);
 
 	},
-		
+
 	// Add parallax effect to star elements
 	addStarsParallax: function (offset) {
 
@@ -391,7 +391,7 @@ var guiExploration = {
 		guiExploration.updatePlanetModel(objElem);
 
 	},
-	
+
 	// Animate the planet model to it's scale/non-scale version
 	updatePlanetModel: function (objElem) {
 
@@ -405,7 +405,7 @@ var guiExploration = {
 		});
 
 	},
-	
+
 	calcDistanceLimits: function () {
 
 		if (!api.planetData)
@@ -438,7 +438,7 @@ var guiExploration = {
 		});
 
 	},
-	
+
 	// Calculate current distance from the sun and update the distance meter
 	updateDistanceMeter: function (scrollTop) {
 

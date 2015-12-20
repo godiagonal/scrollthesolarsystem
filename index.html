@@ -24,10 +24,49 @@
 	<script src="js/api.js"></script>
 	<script src="js/guiOverview.js"></script>
 	<script src="js/guiExploration.js"></script>
+	<script src="js/guiAbout.js"></script>
 </head>
 <body>
     
     <div class="container">
+		
+		<div id="about_container">
+
+			<div class="stars layer1"></div>
+			<div class="stars layer2"></div>
+			
+			<div class="wrap">
+
+				<h3 class="headline">Scroll the Solar System</h3>
+
+				<a class="closeButton" title="Back to current track"></a>
+
+				<div class="clearfix"></div>
+
+				<p>
+					Welcome to an interactive model of the solar system! Here the laws of physics
+					don't quite apply and you can travel in both space and time.
+				</p>
+				<p>
+					The <b><i>overview mode</i></b> displays our solar system and what it looks like today
+					from a bird's eye view. You can use the slider on the right to make the planets
+					travel back and forth in time. The predictions are based on NASA's own calculations.
+				</p>
+				<p>
+					To learn more about the major bodies of the solar system, enter the <b><i>exploration
+					mode</i></b> and start travelling through space at superluminal velocities.
+				</p>
+				<p>
+					This site is made purely for fun and learning, combining my interests for programming,
+					astronomy and graphical design. I hope you enjoy and learn some new things about space
+					and all that good stuff!
+				</p>
+				
+				<input type="button" class="button block" id="btn_hide_about" value="Close">
+
+			</div>
+
+		</div>
         
         <div id="star_container"></div>
         
@@ -71,7 +110,7 @@
             <input type="button" class="button block hide-on-mobile" id="btn_explore" value="Start exploring">
             
             <div class="hide-on-mobile">
-                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link btn-show-about">About</a>
                 <span class="footer-link"> | </span>
                 <a href="https://github.com/godiagonal/scrollthesolarsystem" class="footer-link">GitHub</a>
             </div>
@@ -200,7 +239,7 @@
             
             <input type="button" class="button block hide-on-mobile" id="btn_overview" value="Back to overview">
             
-            <a href="#" class="footer-link">About</a>
+            <a href="#" class="footer-link btn-show-about">About</a>
             <span class="footer-link"> | </span>
             <a href="https://github.com/godiagonal/scrollthesolarsystem" class="footer-link">GitHub</a>
             
