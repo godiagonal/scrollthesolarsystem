@@ -17,9 +17,9 @@ $(function () {
 
 	// Bind UI events
 	$(window).mousewheel(guiOverview.onMouseWheel);
+	$(window).resize(guiOverview.onResize);
 	$('#btn_overview').click(guiOverview.init);
 	$('#btn_orbit_scale').click(guiOverview.setOrbitScale);
-	$(window).resize(guiExploration.onResize);
 	$(window).scroll(guiExploration.onScroll);
 	$('#btn_explore').click(guiExploration.init);
 	$('.btn-show-about').click(guiAbout.init);
@@ -43,7 +43,7 @@ $(function () {
 	});
 
 	// Trigger background stars and get planet data
-	guiExploration.onResize();
+	guiOverview.onResize();
 	guiExploration.onScroll();
 	api.getPlanetData();
 	

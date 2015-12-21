@@ -52,48 +52,6 @@ var guiExploration = {
 
 	},
 
-	onResize: function () {
-
-		var maxWidth = $(window).height() > $(window).width() ? $(window).width() : $(window).height();
-		guiOverview.containerElem.width(maxWidth);
-
-		// Make page mobile friendly if height > width
-		if ($(window).height() > $(window).width() - guiExploration.triggerMobileOffset) {
-
-			if (!browser.isMobile) {
-
-				browser.isMobile = true;
-
-				$('body').addClass('mobile');
-				$('#overview_controls').css('height', 'auto');
-				$('.ui-slider').slider('option', 'orientation', 'horizontal');
-
-				if (guiExploration.isActive)
-					guiOverview.init();
-
-			}
-
-		} else {
-
-			if (browser.isMobile) {
-
-				browser.isMobile = false;
-
-				$(window).scrollTop(0);
-				$('body').removeClass('mobile');
-				$('.ui-slider').slider('option', 'orientation', 'vertical');
-
-			}
-
-			$('#overview_controls').css('height', $(window).height() - guiExploration.controlsOffset * 2);
-
-		}
-
-		// Update distance limits for scrolling
-		guiExploration.calcDistanceLimits();
-
-	},
-
 	onScroll: function () {
 		
 		var scrollTop = $(window).scrollTop();
