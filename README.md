@@ -1,7 +1,7 @@
 # Scroll the Solar System
 
 An interactive model of the solar system made with JavaScript.
-Visit the live site at [http://godiagonal.github.io/scrollthesolarsystem](http://godiagonal.github.io/scrollthesolarsystem).
+Visit the live site at [http://godiagonal.github.io/scrollthesolarsystem](http://scrollthesolarsystem.godiagonal.com).
 
 It has a bird's eye view of what our solar system looks like today according to
 NASA's calculations and allows the user to scroll through the solar system and 
