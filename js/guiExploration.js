@@ -69,7 +69,7 @@ var guiExploration = {
 				$('.ui-slider').slider('option', 'orientation', 'horizontal');
 
 				if (guiExploration.isActive)
-					gui.initOverviewMode();
+					guiOverview.init();
 
 			}
 

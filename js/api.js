@@ -1,10 +1,11 @@
 var api = {
 
 	planetData: null,
+	url: 'data.php',
 
 	getPlanetData: function () {
 
-		$.getJSON('data.php', function (data) {
+		$.getJSON(api.url, function (data) {
 
 			api.planetData = data;
 			guiOverview.updateData();

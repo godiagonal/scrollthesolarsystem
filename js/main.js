@@ -5,7 +5,7 @@ var browser = {
 }
 
 $(function () {
-
+	
 	guiOverview.containerElem = $('#overview_container');
 	guiOverview.viewboxWidth = guiOverview.containerElem[0].getAttribute('viewBox').split(' ')[2];
 	guiExploration.containerElem = $('#exploration_container');
