@@ -1,251 +1,249 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-	<title>Scroll the Solar System</title>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oxygen:600,400,300">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic">
-    <link rel="stylesheet" type="text/css" href="css/vendor/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/vendor/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/stars.css">
-    <script src="js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="js/vendor/jquery-ui.min.js"></script>
-    <script src="js/vendor/jquery-ui.touch-punch.min.js"></script>
-    <script src="js/vendor/jquery.mousewheel.min.js"></script>
-    <script src="js/vendor/TweenMax.min.js"></script>
-    <script src="js/vendor/ScrollMagic.js"></script>
-    <script src="js/vendor/plugins/animation.gsap.js"></script>
-    <script src="js/vendor/plugins/debug.addIndicators.js"></script>
-    <script src="js/vendor/bowser.min.js"></script>
-    <script src="js/main.js"></script>
-	<script src="js/helpers.js"></script>
-	<script src="js/api.js"></script>
-	<script src="js/guiOverview.js"></script>
-	<script src="js/guiExploration.js"></script>
-	<script src="js/guiAbout.js"></script>
-</head>
-<body>
-    
-    <div class="container">
-		
-		<div id="about_container">
 
-			<div class="stars layer1"></div>
-			<div class="stars layer2"></div>
-			
-			<div class="wrap">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+		<title>Scroll the Solar System</title>
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Oxygen:600,400,300">
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic">
+		<link rel="stylesheet" type="text/css" href="css/vendor/normalize.css">
+		<link rel="stylesheet" type="text/css" href="css/vendor/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/stars.css">
+		<script type="text/javascript" src="js/vendor/jquery-2.1.4.min.js" defer></script>
+		<script type="text/javascript" src="js/vendor/jquery-ui.min.js" defer></script>
+		<script type="text/javascript" src="js/vendor/jquery-ui.touch-punch.min.js" defer></script>
+		<script type="text/javascript" src="js/vendor/jquery.mousewheel.min.js" defer></script>
+		<script type="text/javascript" src="js/vendor/TweenMax.min.js" defer></script>
+		<script type="text/javascript" src="js/vendor/ScrollMagic.js" defer></script>
+		<script type="text/javascript" src="js/vendor/plugins/animation.gsap.js" defer></script>
+		<script type="text/javascript" src="js/vendor/plugins/debug.addIndicators.js" defer></script>
+		<script type="text/javascript" src="js/vendor/bowser.min.js" defer></script>
+		<script type="text/javascript" src="js/main.js" defer></script>
+		<script type="text/javascript" src="js/helpers.js" defer></script>
+		<script type="text/javascript" src="js/api.js" defer></script>
+		<script type="text/javascript" src="js/guiOverview.js" defer></script>
+		<script type="text/javascript" src="js/guiExploration.js" defer></script>
+		<script type="text/javascript" src="js/guiAbout.js" defer></script>
+	</head>
 
+	<body>
+
+		<div class="container">
+
+			<div id="about_container">
+
+				<div class="stars layer1"></div>
+				<div class="stars layer2"></div>
+
+				<div class="wrap">
+
+					<h3 class="headline">Scroll the Solar System</h3>
+
+					<a class="closeButton" title="Back to current track"></a>
+
+					<div class="clearfix"></div>
+
+					<p>
+						Welcome to an interactive model of the solar system! Here the laws of physics don't quite apply and you can travel in both space and time.
+					</p>
+					<p>
+						The <b>overview mode</b> displays our solar system and what it looks like today from a bird's eye view. You can use the slider on the right to make the planets travel back and forth in time. The predictions are based on NASA's own calculations.
+					</p>
+					<p>
+						To learn more about the major bodies of the solar system, enter the <b>exploration
+						mode</b> and start travelling through space at superluminal velocities.
+					</p>
+					<p>
+						This site is made purely for fun and learning, combining my interests for programming, astronomy and graphical design. I hope you enjoy and learn some new things about space and all that good stuff!
+					</p>
+
+					<input type="button" class="button block" id="btn_hide_about" value="Close">
+
+				</div>
+
+			</div>
+
+			<div id="star_container"></div>
+
+			<div id="title">
 				<h3 class="headline">Scroll the Solar System</h3>
+			</div>
 
-				<a class="closeButton" title="Back to current track"></a>
+			<svg id="overview_container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
 
-				<div class="clearfix"></div>
+				<circle id="ov_mercury_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_venus_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_earth_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_mars_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_jupiter_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_saturn_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_uranus_orbit" cy="500" cx="500" r="0" class="orbit" />
+				<circle id="ov_neptune_orbit" cy="500" cx="500" r="0" class="orbit" />
 
-				<p>
-					Welcome to an interactive model of the solar system! Here the laws of physics
-					don't quite apply and you can travel in both space and time.
-				</p>
-				<p>
-					The <b>overview mode</b> displays our solar system and what it looks like today
-					from a bird's eye view. You can use the slider on the right to make the planets
-					travel back and forth in time. The predictions are based on NASA's own calculations.
-				</p>
-				<p>
-					To learn more about the major bodies of the solar system, enter the <b>exploration
-					mode</b> and start travelling through space at superluminal velocities.
-				</p>
-				<p>
-					This site is made purely for fun and learning, combining my interests for programming,
-					astronomy and graphical design. I hope you enjoy and learn some new things about space
-					and all that good stuff!
-				</p>
-				
-				<input type="button" class="button block" id="btn_hide_about" value="Close">
+				<circle id="ov_mercury" cy="500" cx="500" r="0" class="planet" title="Mercury" />
+				<circle id="ov_venus" cy="500" cx="500" r="0" class="planet" title="Venus" />
+				<circle id="ov_earth" cy="500" cx="500" r="0" class="planet" title="Earth" />
+				<circle id="ov_mars" cy="500" cx="500" r="0" class="planet" title="Mars" />
+				<circle id="ov_jupiter" cy="500" cx="500" r="0" class="planet" title="Jupiter" />
+				<circle id="ov_saturn" cy="500" cx="500" r="0" class="planet" title="Saturn" />
+				<circle id="ov_uranus" cy="500" cx="500" r="0" class="planet" title="Uranus" />
+				<circle id="ov_neptune" cy="500" cx="500" r="0" class="planet" title="Neptune" />
+
+				<circle id="ov_sun" cy="500" cx="500" r="0" title="The sun" />
+
+			</svg>
+
+			<div id="overview_controls" class="controls">
+
+				<div id="slider_date">
+					<div class="text prev-year">One year ago</div>
+					<div class="text next-year">One year from now</div>
+					<div class="text now">Today</div>
+				</div>
+
+				<input type="button" class="button block" id="btn_orbit_scale" value="Show orbits to scale" data-toggle-value="Show normalized orbits">
+				<input type="button" class="button block hide-on-mobile" id="btn_explore" value="Start exploring">
+
+				<div class="hide-on-mobile">
+					<a href="#" class="footer-link btn-show-about">About</a>
+					<span class="footer-link"> | </span>
+					<a href="https://github.com/godiagonal/scrollthesolarsystem" class="footer-link">GitHub</a>
+				</div>
+
+			</div>
+
+			<div id="hint_intro" class="hint">
+				Scroll down to begin your voyage
+			</div>
+
+			<div id="hint_scale" class="hint">
+				Click on a planet to show it's size to scale in relation to the sun
+			</div>
+
+			<div id="exploration_container">
+
+				<div id="ex_sun_container">
+					<svg class="show-on-mobile planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
+						<circle id="ex_sun_mobile" cy="250" cx="250" r="250" class="planet" />
+					</svg>
+					<svg class="hide-on-mobile" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 250" preserveAspectRatio='none'>
+						<circle id="ex_sun_desktop" cy="-2000" cx="500" r="2000" />
+					</svg>
+					<div class="info"></div>
+				</div>
+
+				<div id="ex_mercury_container" class="row">
+					<div class="col">
+						<img class="planet" src="images/mercury.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_venus_container" class="row invert">
+					<div class="col">
+						<img class="planet" src="images/venus.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_earth_container" class="row">
+					<div class="col">
+						<img class="planet" src="images/earth.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_mars_container" class="row invert">
+					<div class="col">
+						<img class="planet" src="images/mars.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_asteroids_container" class="row full-width">
+					<img class="belt" src="images/asteroids.svg">
+					<div class="info"></div>
+				</div>
+
+				<div id="ex_jupiter_container" class="row">
+					<div class="col">
+						<img class="planet" src="images/jupiter.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_saturn_container" class="row invert">
+					<div class="col">
+						<img class="planet" src="images/saturn.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_uranus_container" class="row">
+					<div class="col">
+						<img class="planet" data-margin-top="-100" src="images/uranus.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_neptune_container" class="row invert">
+					<div class="col">
+						<img class="planet" src="images/neptune.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_pluto_container" class="row">
+					<div class="col">
+						<img class="planet" src="images/pluto.svg">
+					</div>
+					<div class="col">
+						<div class="info"></div>
+					</div>
+				</div>
+
+				<div id="ex_kuiper_container" class="row full-width">
+					<img class="belt" src="images/comets.svg">
+					<div class="info"></div>
+				</div>
+
+			</div>
+
+			<div id="exploration_controls" class="controls">
+
+				<div id="distance_meter" class="hide-on-mobile">
+					<div class="headline">Distance travelled</div>
+					<div class="value"><span id="distance_au">0</span> au</div>
+				</div>
+
+				<input type="button" class="button block hide-on-mobile" id="btn_overview" value="Back to overview">
+
+				<a href="#" class="footer-link btn-show-about">About</a>
+				<span class="footer-link"> | </span>
+				<a href="https://github.com/godiagonal/scrollthesolarsystem" class="footer-link">GitHub</a>
 
 			</div>
 
 		</div>
-        
-        <div id="star_container"></div>
-        
-        <div id="title">
-            <h3 class="headline">Scroll the Solar System</h3>
-        </div>
 
-        <svg id="overview_container" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" preserveAspectRatio='none'>
+	</body>
 
-            <circle id="ov_mercury_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_venus_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_earth_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_mars_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_jupiter_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_saturn_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_uranus_orbit" cy="500" cx="500" r="0" class="orbit" />
-            <circle id="ov_neptune_orbit" cy="500" cx="500" r="0" class="orbit" />
-
-            <circle id="ov_mercury" cy="500" cx="500" r="0" class="planet" title="Mercury" />
-            <circle id="ov_venus" cy="500" cx="500" r="0" class="planet" title="Venus" />
-            <circle id="ov_earth" cy="500" cx="500" r="0" class="planet" title="Earth" />
-            <circle id="ov_mars" cy="500" cx="500" r="0" class="planet" title="Mars" />
-            <circle id="ov_jupiter" cy="500" cx="500" r="0" class="planet" title="Jupiter" />
-            <circle id="ov_saturn" cy="500" cx="500" r="0" class="planet" title="Saturn" />
-            <circle id="ov_uranus" cy="500" cx="500" r="0" class="planet" title="Uranus" />
-            <circle id="ov_neptune" cy="500" cx="500" r="0" class="planet" title="Neptune" />
-
-            <circle id="ov_sun" cy="500" cx="500" r="0" title="The sun" />
-
-        </svg>
-        
-        <div id="overview_controls" class="controls">
-            
-            <div id="slider_date">
-                <div class="text prev-year">One year ago</div>
-                <div class="text next-year">One year from now</div>
-                <div class="text now">Today</div>
-            </div>
-            
-            <input type="button" class="button block" id="btn_orbit_scale" value="Show orbits to scale" data-toggle-value="Show normalized orbits">
-            <input type="button" class="button block hide-on-mobile" id="btn_explore" value="Start exploring">
-            
-            <div class="hide-on-mobile">
-                <a href="#" class="footer-link btn-show-about">About</a>
-                <span class="footer-link"> | </span>
-                <a href="https://github.com/godiagonal/scrollthesolarsystem" class="footer-link">GitHub</a>
-            </div>
-            
-        </div>
-        
-        <div id="hint_intro" class="hint">
-            Scroll down to begin your voyage
-        </div>
-        
-        <div id="hint_scale" class="hint">
-            Click on a planet to show it's size to scale in relation to the sun
-        </div>
-        
-        <div id="exploration_container">
-            
-            <div id="ex_sun_container">
-                <svg class="show-on-mobile planet" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" preserveAspectRatio='none'>
-                    <circle id="ex_sun_mobile" cy="250" cx="250" r="250" class="planet" />
-                </svg>
-                <svg class="hide-on-mobile" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 250" preserveAspectRatio='none'>
-                    <circle id="ex_sun_desktop" cy="-2000" cx="500" r="2000" />
-                </svg>
-                <div class="info"></div>
-            </div>
-            
-            <div id="ex_mercury_container" class="row">
-                <div class="col">
-                    <img class="planet" src="images/mercury.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_venus_container" class="row invert">
-                <div class="col">
-                    <img class="planet" src="images/venus.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_earth_container" class="row">
-                <div class="col">
-                    <img class="planet" src="images/earth.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_mars_container" class="row invert">
-                <div class="col">
-                    <img class="planet" src="images/mars.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_asteroids_container" class="row full-width">
-                <img class="belt" src="images/asteroids.svg">
-                <div class="info"></div>
-            </div>
-            
-            <div id="ex_jupiter_container" class="row">
-                <div class="col">
-                    <img class="planet" src="images/jupiter.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_saturn_container" class="row invert">
-                <div class="col">
-                    <img class="planet" src="images/saturn.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_uranus_container" class="row">
-                <div class="col">
-                    <img class="planet" data-margin-top="-100" src="images/uranus.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_neptune_container" class="row invert">
-                <div class="col">
-                    <img class="planet" src="images/neptune.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_pluto_container" class="row">
-                <div class="col">
-                    <img class="planet" src="images/pluto.svg">
-                </div>
-                <div class="col">
-                    <div class="info"></div>
-                </div>
-            </div>
-            
-            <div id="ex_kuiper_container" class="row full-width">
-                <img class="belt" src="images/comets.svg">
-                <div class="info"></div>
-            </div>
-            
-        </div>
-        
-        <div id="exploration_controls" class="controls">
-            
-            <div id="distance_meter" class="hide-on-mobile">
-                <div class="headline">Distance travelled</div>
-                <div class="value"><span id="distance_au">0</span> au</div>
-            </div>
-            
-            <input type="button" class="button block hide-on-mobile" id="btn_overview" value="Back to overview">
-            
-            <a href="#" class="footer-link btn-show-about">About</a>
-            <span class="footer-link"> | </span>
-            <a href="https://github.com/godiagonal/scrollthesolarsystem" class="footer-link">GitHub</a>
-            
-        </div>
-        
-    </div>
-
-</body>
 </html>

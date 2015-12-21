@@ -46,6 +46,9 @@ $(function () {
 	guiExploration.onResize();
 	guiExploration.onScroll();
 	api.getPlanetData();
+	
+	// Fade in controls
+	$('.controls').animate({ opacity: 1 }, 500);
 
 	// Fade in intro hint
 	setTimeout(function () {

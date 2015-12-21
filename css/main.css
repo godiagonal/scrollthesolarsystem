@@ -103,6 +103,7 @@ p {
 	z-index: 10;
 	text-align: center;
 	transition: right 0.5s ease-in-out;
+	opacity: 0;
 }
 
 .mobile .controls {
@@ -235,6 +236,13 @@ p {
 	text-align: center;
 	line-height: 20px;
 	font-size: 14px;
+}
+
+
+/* Star background */
+
+#star_container {
+	opacity: 0;
 }
 
 

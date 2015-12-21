@@ -356,6 +356,12 @@ var guiExploration = {
 			.data('parallax-top', 300)
 			.appendTo('#star_container');
 
+		var starContainer = $('#star_container');
+		
+		// Animate bg on startup
+		if (starContainer.css('opacity') !== 1)
+			starContainer.animate({ opacity: 1 }, 250);
+		
 		if (browser.canUseParallax)
 			guiExploration.addStarsParallax(offset);
 
