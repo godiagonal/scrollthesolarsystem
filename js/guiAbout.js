@@ -2,7 +2,7 @@ var guiAbout = {
 
 	containerElem: null,
 	
-	init: function () {
+	init: function (event) {
 		
 		event.preventDefault();
 		
