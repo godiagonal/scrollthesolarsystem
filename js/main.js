@@ -47,13 +47,13 @@ $(function () {
 	guiExploration.onScroll();
 	api.getPlanetData();
 	
-	// Fade in controls
-	$('.controls').animate({ opacity: 1 }, 500);
+	// Slide in controls
+	$('#overview_controls').css('right', guiOverview.controlsOffset);
 
 	// Fade in intro hint
 	setTimeout(function () {
 		$('#hint_intro').css('opacity', 1);
-	}, 1500);
+	}, 2000);
 
 });
 

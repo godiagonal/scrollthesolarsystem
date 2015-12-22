@@ -103,7 +103,6 @@ p {
 	z-index: 10;
 	text-align: center;
 	transition: right 0.5s ease-in-out;
-	opacity: 0;
 }
 
 .mobile .controls {
@@ -240,6 +239,10 @@ p {
 
 
 /* Overview mode */
+
+#overview_controls {
+	right: -300px;
+}
 
 #overview_container {
 	display: block;

@@ -318,7 +318,7 @@ var guiExploration = {
 		
 		// Animate bg on startup
 		if (starContainer.css('opacity') !== 1)
-			starContainer.animate({ opacity: 1 }, 250);
+			starContainer.animate({ opacity: 1 }, 500);
 		
 		if (browser.canUseParallax)
 			guiExploration.addStarsParallax(offset);
